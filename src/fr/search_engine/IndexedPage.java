@@ -16,18 +16,14 @@ public class IndexedPage {
 	}
 	
 	public IndexedPage(String text) {
-		String[] temp = text.split(" ");
-		for (int i = 0; i < temp.length; i++) {
-			words[i] = temp[i] + ":" + this.getCount(temp[i]);
-		}
+		text.toLowerCase();		
+		words = text.split(" ");
+		counts = new int[words.length];
+		Arrays.sort(words);
 		
-		for (int i = 0 ; i < words.length; i++) {
-			for (int j = 0; j < temp.length; i++) {
-				if (words[i] == temp[j])
-					break;
-				else if (i == (temp.length - 1))
-					temp[i+1] = words[i];
-			}
+		counts[0] = this.getCount(words[0]);
+		for (int i = 1; i < words.length; i++) {
+
 		}
 	}
 	
@@ -51,13 +47,12 @@ public class IndexedPage {
 	
     public int getCount(String word) {
     	/*Renvoie le nombre d'occurences du mot*/
-    	
     	int nombreOccurences = 0;
     	
-    	for (int i =0; i<words.length;i++) {
-    		String[] list_tmp = words[i].split(":");
-    		if (list_tmp[0].equals(word)) {
-    			nombreOccurences = Integer.parseInt(list_tmp[1]);
+    	for (int i = 0; i < this.words.length; i++) {
+    		//String[] list_tmp = this.words[i].split(":");
+    		if (words[i].equals(word)) {
+    			nombreOccurences++;
     		}
     	}
     	return nombreOccurences;
