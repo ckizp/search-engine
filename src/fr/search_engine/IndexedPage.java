@@ -66,6 +66,12 @@ public class IndexedPage {
     
     
 	public double getPonderation(String word) {
+		/* Mathématique :
+		Par exemple Hello en arg : 10 
+		La norme = 11
+		Alors on fait : 1/11 * 10 
+		= 
+		*/
 		return (1.0/this.getNorm())*this.getCount(word);
 	}
 	
