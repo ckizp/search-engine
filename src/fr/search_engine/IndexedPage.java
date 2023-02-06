@@ -3,13 +3,16 @@ package fr.search_engine;
 import java.util.Arrays;
 
 public class IndexedPage {
-	private String url = null;
+	
+
+	private String url ;
 	private String[] words;
-	private int[] counts;
+//	private int[] counts;
 	
 	public IndexedPage(String[] lines) {
-	this.url = lines[0];
-	this.words = Arrays.copyOfRange(lines, 1, lines.length);
+		
+		this.url = lines[0];
+		this.words = Arrays.copyOfRange(lines, 1, lines.length);
 	}
 	
 	public IndexedPage(String text) {
@@ -18,7 +21,6 @@ public class IndexedPage {
 			words[i] = temp[i] + ":" + this.getCount(temp[i]);
 		}
 		
-		temp = null;
 		for (int i = 0 ; i < words.length; i++) {
 			for (int j = 0; j < temp.length; i++) {
 				if (words[i] == temp[j])
@@ -68,7 +70,7 @@ public class IndexedPage {
 	}
 	
 	public double proximity(IndexedPage page) {
-		return 0;
+		return 0.0;
 	}
 	
 	public String toString() {
