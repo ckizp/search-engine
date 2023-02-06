@@ -66,7 +66,7 @@ public class IndexedPage {
     
     
 	public double getPonderation(String word) {
-		return 0.;
+		return (1.0/this.getNorm())*this.getCount(word);
 	}
 	
 	public double proximity(IndexedPage page) {
