@@ -34,20 +34,42 @@ public class IndexedPage {
 		return this.url;
 	}
 	
-	public double getNorm() {
-		return 0.;
-	}
+    public int getNorm() {
+    	/*Renvoie la norme du nombre d'occurences des mots
+    	 * donner en parametre du constructeur*/
+
+    	int  norme = 0;
+    	
+    	for (int i=0; i<words.length;i++) {
+    		String[] list_tmp = words[i].split(":");
+    		norme = norme + (int) Math.pow(Integer.parseInt(list_tmp[1]), 2);
+    	}
+    	return (int) Math.sqrt(norme);
+    }
+
 	
-	public int getCount(String word) {
-		return 0;
-	}
-	
+    public int getCount(String word) {
+    	/*Renvoie le nombre d'occurences du mot*/
+    	
+    	int nombreOccurences = 0;
+    	
+    	for (int i =0; i<words.length;i++) {
+    		String[] list_tmp = words[i].split(":");
+    		if (list_tmp[0].equals(word)) {
+    			nombreOccurences = Integer.parseInt(list_tmp[1]);
+    		}
+    	}
+    	return nombreOccurences;
+    }
+    
+    
+    
 	public double getPonderation(String word) {
 		return 0.;
 	}
 	
 	public double proximity(IndexedPage page) {
-		return 0.;
+		;
 	}
 	
 	public String toString() {
