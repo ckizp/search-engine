@@ -25,10 +25,12 @@ public class SearchEngineTests {
 		page1.toString();
 		
 		// Test for user : @thomasbres || File Name : IndexedPage.java
-		String[] lines = {"http://example.org", "hello:1", "world:1", "java:7"};
+		String[] lines = {"http://example.org", "hello:10", "world:1", "java:7"};
 		IndexedPage indexedPageTest = new IndexedPage(lines);
 		System.out.println(indexedPageTest.getNorm());
 		
+		// Test for user : @akirasanthakumaran & @thomasbres || File Name : IndexedPage.java
+		System.out.println(page1.getPonderation("hello")); // For function getPonderation 
 		
 		// Final Main :
 		/*public static void main(String[] args) {
