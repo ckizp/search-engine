@@ -1,5 +1,7 @@
 package fr.search_engine;
 
+import java.util.Arrays;
+
 public class IndexedPage {
 	private String url = null;
 	private String[] words;
