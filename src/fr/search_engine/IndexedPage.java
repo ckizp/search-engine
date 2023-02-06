@@ -6,11 +6,8 @@ public class IndexedPage {
 	private int[] counts;
 	
 	public IndexedPage(String[] lines) {
-		if (lines[0] != null) {
-			for(int i = 1; i < lines.length; i++) {
-				words[i] = lines[i];
-			}
-		}
+	this.url = lines[0];
+	this.words = Arrays.copyOfRange(lines, 1, lines.length);
 	}
 	
 	public IndexedPage(String text) {
