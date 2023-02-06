@@ -69,7 +69,7 @@ public class IndexedPage {
 	}
 	
 	public double proximity(IndexedPage page) {
-		;
+		return 0;
 	}
 	
 	public String toString() {
