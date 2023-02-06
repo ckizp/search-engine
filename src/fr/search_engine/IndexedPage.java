@@ -16,14 +16,18 @@ public class IndexedPage {
 	}
 	
 	public IndexedPage(String text) {
-		text.toLowerCase();		
-		words = text.split(" ");
-		counts = new int[words.length];
-		Arrays.sort(words);
+		String[] temp = text.split(" ");
+		for (int i = 0; i < temp.length; i++) {
+			words[i] = temp[i] + ":" + this.getCount(temp[i]);
+		}
 		
-		counts[0] = this.getCount(words[0]);
-		for (int i = 1; i < words.length; i++) {
-
+		for (int i = 0 ; i < words.length; i++) {
+			for (int j = 0; j < temp.length; i++) {
+				if (words[i] == temp[j])
+					break;
+				else if (i == (temp.length - 1))
+					temp[i+1] = words[i];
+			}
 		}
 	}
 	
@@ -47,12 +51,13 @@ public class IndexedPage {
 	
     public int getCount(String word) {
     	/*Renvoie le nombre d'occurences du mot*/
+    	
     	int nombreOccurences = 0;
     	
-    	for (int i = 0; i < this.words.length; i++) {
-    		//String[] list_tmp = this.words[i].split(":");
-    		if (words[i].equals(word)) {
-    			nombreOccurences++;
+    	for (int i =0; i<words.length;i++) {
+    		String[] list_tmp = words[i].split(":");
+    		if (list_tmp[0].equals(word)) {
+    			nombreOccurences = Integer.parseInt(list_tmp[1]);
     		}
     	}
     	return nombreOccurences;
@@ -61,17 +66,43 @@ public class IndexedPage {
     
     
 	public double getPonderation(String word) {
-		/* Mathématique :
-		Par exemple Hello en arg : 10 
-		La norme = 11
-		Alors on fait : 1/11 * 10 
-		= 
-		*/
 		return (1.0/this.getNorm())*this.getCount(word);
 	}
 	
 	public double proximity(IndexedPage page) {
-		return 0.0;
+    	
+		double sum = 0 ;
+		double tmpSum = 0 ;
+		
+		for (int i =0; i<page.words.length;i++) {
+			
+			//System.out.println(page.words.length);
+			//System.out.println(this.words.length);
+			
+			for(int j = 0 ;  j< this.words.length ; j ++ )
+			{
+				String[] list_tmp = this.words[i].split(":");
+				String[] list_tmp2 = this.words[j].split(":");
+				
+				if(list_tmp2[0].equals(list_tmp[0]))
+				{
+					tmpSum = getPonderation(list_tmp2[0]) * getPonderation(list_tmp[0]) ;
+					
+					sum = sum + tmpSum ; 
+					
+				}
+				
+	
+				
+			}
+
+		
+    	}
+		
+		return sum ; 
+		
+		
+		
 	}
 	
 	public String toString() {
