@@ -31,6 +31,46 @@ public class IndexedPage {
 		words = str.toArray(new String[0]);
 	}
 	
+			/**
+		ArrayList<String> str = new ArrayList<>();
+		String[] tempWords = new String[words.length+1];
+		
+		if(words[0]!=null) {
+			tempWords[0]=words[0];
+		}
+		
+		for (int i = 1 ; i < words.length; i++) {	
+			if (!words[i-1].equals(words[i])) {
+				tempWords[i]=words[i];
+			}
+		}
+		
+		
+		this.words = Arrays.copyOf(tempWords,tempWords.length-compteur-1);
+		
+		counts = new int[tempWords.length];
+		Arrays.fill(counts,1);
+		
+	
+		System.out.println("\nwords : ");
+		for(int i = 0; i < words.length ; i++) {
+			System.out.println(words[i]+" ");
+		}
+		System.out.println("\ntemp : ");
+		for(int i = 0; i < words.length ; i++) {
+			System.out.println(tempWords[i]+" ");
+		}
+		
+		for (int i = 1 ; i < words.length; i++) {
+			for (int j = 0 ; j < words.length ; j++) {
+				if (tempWords[i].equals(words[j])) {
+					counts[i]+=1;
+				}
+			}
+		}
+		**/
+	
+	
 	public String getUrl() {
 		return this.url;
 	}
