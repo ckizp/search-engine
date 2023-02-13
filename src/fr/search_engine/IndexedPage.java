@@ -74,7 +74,28 @@ public class IndexedPage {
 	}
 	
 	public double proximity(IndexedPage page) {
-		return 0.0;
+		
+		double prod_scalaire = 0 ;
+		double tmpProd = 0 ;
+		
+		double norme1 = this.getNorm();
+		double norme2 = page.getNorm();
+		
+		for (int i = 0; i<page.words.length;i++) {		
+			for(int j = 0 ;  j< this.words.length ; j++ ) {
+				String[] list_tmp = this.words[i].split(":");
+				String[] list_tmp2 = page.words[j].split(":");
+				
+				if(list_tmp2[0].equals(list_tmp[0])){	
+					tmpProd = Double.parseDouble(list_tmp2[1]) * Double.parseDouble(list_tmp[1]) ;
+					prod_scalaire = prod_scalaire + tmpProd ; 
+				}
+			}
+		}
+		double tmp = norme1 * norme2;
+		double cosinus = prod_scalaire/tmp; 
+		
+		return cosinus ; 
 	}
 	
 	public String toString() {
