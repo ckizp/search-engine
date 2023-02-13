@@ -16,15 +16,18 @@ public class IndexedPage {
 	}
 	
 	public IndexedPage(String text) {
+		ArrayList<String> str = new ArrayList<>();
 		text.toLowerCase();		
 		words = text.split(" ");
-		counts = new int[words.length];
 		Arrays.sort(words);
 		
-		counts[0] = this.getCount(words[0]);
+		str.add(words[0] + ":" + this.getCount(words[0]));
 		for (int i = 1; i < words.length; i++) {
-
+			if (!words[i-1].equals(words[i])) {
+				str.add(words[i] + ":" + this.getCount(words[i]));
+			}
 		}
+		words = str.toArray(new String[0]);
 	}
 	
 	public String getUrl() {
