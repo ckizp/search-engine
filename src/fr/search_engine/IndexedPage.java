@@ -34,17 +34,17 @@ public class IndexedPage {
 		return this.url;
 	}
 	
-    public int getNorm() {
+    public double getNorm() {
     	/*Renvoie la norme du nombre d'occurences des mots
-    	 * donner en parametre du constructeur*/
+    	 *donnés en parametre du constructeur*/
 
-    	int  norme = 0;
+    	double norme = 0;
     	
-    	for (int i=0; i<words.length;i++) {
+    	for (int i = 0 ; i < words.length ; i++) {
     		String[] list_tmp = words[i].split(":");
-    		norme = norme + (int) Math.pow(Integer.parseInt(list_tmp[1]), 2);
+    		norme = norme + (double) Math.pow(Integer.parseInt(list_tmp[1]), 2);
     	}
-    	return (int) Math.sqrt(norme);
+    	return (double) Math.sqrt(norme);
     }
 
 	
