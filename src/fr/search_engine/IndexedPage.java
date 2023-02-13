@@ -50,16 +50,11 @@ public class IndexedPage {
 
 	
     public int getCount(String word) {
-    	/*Renvoie le nombre d'occurences du mot*/
-    	int nombreOccurences = 0;
-    	
-    	for (int i = 0; i < this.words.length; i++) {
-    		//String[] list_tmp = this.words[i].split(":");
-    		if (words[i].equals(word)) {
-    			nombreOccurences++;
-    		}
+    	for (int i = 0; i < words.length; i++) {
+    		if (words[i].split(":")[0].equals(word))
+    			return Integer.parseInt(words[i].split(":")[1]);
     	}
-    	return nombreOccurences;
+    	return 0;
     }
     
     
