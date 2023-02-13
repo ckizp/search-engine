@@ -1,6 +1,7 @@
 package fr.search_engine;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 
 public class IndexedPage {
 	
@@ -99,6 +100,9 @@ public class IndexedPage {
 	}
 	
 	public String toString() {
-		return "";
+		if (url != null)
+			return "IndexedPage [url=" + url + "]";
+		else
+			return "IndexedPage [words=" + Arrays.toString(words);
 	}
 }
