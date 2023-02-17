@@ -119,11 +119,9 @@ public class IndexedPage {
 		
 		for (int i = 0; i<page.words.length;i++) {		
 			for(int j = 0 ;  j< this.words.length ; j++ ) {
-				String[] list_tmp = count[i];
-				String[] list_tmp2 = count[j];
 				
-				if(list_tmp2[0].equals(list_tmp[0])){	
-					tmpProd = Double.parseDouble(list_tmp2[1]) * Double.parseDouble(list_tmp[1]) ;
+				if(this.count[j].equals(page.count[i])){	
+					tmpProd =this.count[j] * page.count[i] ;
 					prod_scalaire = prod_scalaire + tmpProd ; 
 				}
 			}
