@@ -119,8 +119,8 @@ public class IndexedPage {
 		
 		for (int i = 0; i<page.words.length;i++) {		
 			for(int j = 0 ;  j< this.words.length ; j++ ) {
-				String[] list_tmp = this.words[i].split(":");
-				String[] list_tmp2 = page.words[j].split(":");
+				String[] list_tmp = count[i];
+				String[] list_tmp2 = count[j];
 				
 				if(list_tmp2[0].equals(list_tmp[0])){	
 					tmpProd = Double.parseDouble(list_tmp2[1]) * Double.parseDouble(list_tmp[1]) ;
