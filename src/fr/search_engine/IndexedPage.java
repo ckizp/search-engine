@@ -1,25 +1,66 @@
 package fr.search_engine;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.Normalizer;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class IndexedPage {
 	private String url;
 	private String[] words;
 	private int[] counts;
 	
-	public IndexedPage(String[] lines) {
-		this.url = lines[0];
+	public IndexedPage(String[] lines) throws IllegalArgumentException {
+	    if (lines == null || lines.length < 1) {
+	        throw new IllegalArgumentException("Le tableau n'est pas initialisé ou est de taille 0");
+	    }
+		url = lines[0];
 		
 		words = new String[lines.length - 1];
 		counts = new int[lines.length - 1];
 		
 		for (int i = 1; i < lines.length; i++) {
 			String[] link = lines[i].split(":");
+			if (link.length != 2) {
+	            throw new IllegalArgumentException("L'élément à l'indice " + i + " ne respecte pas le format suivant: mot:nombre_d'occurrence" + lines[i]);
+	        }
 			words[i-1] = link[0];
-			counts[i-1] = Integer.parseInt(link[1]);
+			try {
+	            counts[i-1] = Integer.parseInt(link[1]);
+	        } catch (NumberFormatException e) {
+	            throw new IllegalArgumentException("L'élément à l'indice " + i + " ne respecte pas le format suivant: mot:nombre_d'occurrence" + lines[1]);
+	        }
+		}
+	}
+	
+	public IndexedPage(Path path) throws IllegalArgumentException {
+		try {
+			List<String> allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
+			if (allLines.size() < 1) {
+				throw new IllegalArgumentException("Le document " + path.getFileName() + " est vide");
+			}
+			url = allLines.get(0);
+			
+			words = new String[allLines.size()-1];
+			counts = new int[allLines.size()-1];
+			
+			for (int i = 1; i < allLines.size(); i++) {
+				String[] link = allLines.get(i).split(":");
+				if (link.length != 2) {
+					throw new IllegalArgumentException("La ligne n°" + i + " du document " + path.getFileName() + " ne respecte pas le format suivant: mot:nombre_d'occurrence");
+				}
+				words[i-1] = link[0];
+				try {
+					counts[i-1] = Integer.parseInt(link[1]);
+				} catch (NumberFormatException e) {
+					throw new IllegalArgumentException("La ligne n°" + i + " du document " + path.getFileName() + " ne respecte pas le format suivant: mot:nombre_d'occurrence");
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

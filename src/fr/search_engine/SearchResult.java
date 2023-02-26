@@ -15,13 +15,6 @@ public class SearchResult {
 		score = 0;
 	}
 	
-	/* Function from the Getters & Setters
-	 * -> setURL : it's ...
-	 * -> setScore : it's ...
-	 * -> getURL : it's ...
-	 * -> getScore : ...
-	 */
-	
 	// SETTER [Argument: 1, variable affected : url]
 	public void setURL(String url) {
 		this.url = url;
@@ -33,21 +26,20 @@ public class SearchResult {
 	}
 	// GETTER [Argument : 0, variable affected : url]
 	public String getURL() {
-		return this.url;
+		return url;
 	}
 	
 	// GETTER [Argument : 0, variable affected : Score]
 	public double getScore() {
-		return this.score;
+		return score;
 	}
 	
 	// Function ToString 
-	
-	public String toString(){
-		// On retourne L'url qui à eté demander par l'utilisateur
-		// La requetes sera pris en Args
-		return "IndexedFile ["+this.url+"]";
+	@Override
+	public String toString() {
+		return "SearchResult [url=" + url + ", score=" + score + "]";
 	}
+
 	// Programme Non Terminer, veuillez laissser un peu de temps 
 	public static void main(String[] args) {
 		SearchResult page1 = new SearchResult(args[0]);
@@ -64,7 +56,4 @@ public class SearchResult {
 		 *  
 		 * */
 	}
-	
-	
-	
 }

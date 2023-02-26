@@ -1,8 +1,9 @@
 package fr.search_engine_tests;
 
+import java.nio.file.Paths;
+import java.util.Scanner;
+
 import fr.search_engine.IndexedPage;
-import fr.search_engine.SearchResult; 
-// Import never used  :   !! We have to do the modif 
 import fr.search_engine.SearchEngine;
 
 public class SearchEngineTests {
@@ -23,6 +24,15 @@ public class SearchEngineTests {
 		System.out.println("Le nombre d'occurrences du mot 'lumière' dans la page 4 est : " + page4.getCount("lumiere"));
 		System.out.println("valeur de la coordonnée correspondant au mot 'lumière' : " + page4.getPonderation("lumiere"));
 		System.out.println("Degré de similarité entre la page 3 et page 4 : " + page3.proximity(page4));
+		
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Spécifiez le chemin vers le répertoire des fichiers :");
+		String directoryPath = scanner.nextLine();
+		SearchEngine engine = new SearchEngine(Paths.get(directoryPath));
+		
+		System.out.println("Recherchez :");
+		String request = scanner.nextLine();
+		engine.printResults(request);
 	}
 
 }
