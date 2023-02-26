@@ -1,11 +1,15 @@
 package fr.search_engine;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Scanner;
 import java.util.stream.StreamSupport;
 
 public class SearchEngine {
@@ -15,14 +19,16 @@ public class SearchEngine {
 	public SearchEngine(Path indexation_directory) {
 		int i = 0;
 		this.indexation_directory = indexation_directory;
-		try {
-			DirectoryStream<Path> stream = Files.newDirectoryStream(indexation_directory, path -> Files.isRegularFile(path) && path.toString().endsWith(".txt"));
-			DirectoryStream<Path> temp = Files.newDirectoryStream(indexation_directory, path -> Files.isRegularFile(path) && path.toString().endsWith(".txt"));
-			pages = new IndexedPage[Math.toIntExact(StreamSupport.stream(stream.spliterator(), false).count())];
-			for (Path filePath : temp) {
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(indexation_directory, path -> Files.isRegularFile(path) && path.toString().endsWith(".txt"))) {
+			int pathCount = Math.toIntExact(StreamSupport.stream(stream.spliterator(), false).count());
+			pages = new IndexedPage[pathCount];
+
+			DirectoryStream<Path> paths = Files.newDirectoryStream(indexation_directory, path -> Files.isRegularFile(path) && path.toString().endsWith(".txt"));
+			for (Path filePath : paths) {
 				pages[i] = new IndexedPage(filePath);
 				i++;
 			}
+			paths.close();
 		} catch (IOException e) {
 			System.err.println("Problème lors de la lecture du répertoire " + indexation_directory.getFileName() + " : " + e.getMessage());
 		}
@@ -51,22 +57,9 @@ public class SearchEngine {
 	}
 	
 	public void printResults(String requestString){
-		final int printLimit = 15;
 		int i;
+		final int printLimit = 15;
 		SearchResult[] results = launchRequest(requestString);
-		/*
-		int i, k, imax;
-		SearchResult temp;
-		for (k = results.length-1; k >= 1; k--) {
-			imax = 0;
-			for (i = 1; i <= k; i++) {
-				if (results[imax].getScore() > results[i].getScore())
-					imax = i;
-			}
-			temp = results[k];
-			results[k] = results[imax];
-			results[imax] = temp;
-		}*/
 		
 		// Applique un filtre au tableau results afin d'enlever tous les résultats dont le score est nul
 		results = Arrays.stream(results).filter(result -> result.getScore() != 0.0).toArray(SearchResult[]::new);
@@ -74,8 +67,36 @@ public class SearchEngine {
 	    Arrays.sort(results, Comparator.comparingDouble(SearchResult::getScore).reversed());
 	 
 	    // Affichage des résultats les plus pertinents (limite fixée par printLimit)
-		for (i = 0; i < ((results.length < printLimit) ? (results.length) : (printLimit)); i++) {
+	    if (results.length == 0)
+	    	System.out.println("Aucun résultat pour cette recherche !");
+	    else
+	    	System.out.println("Voici ce que nous avons trouvé :");
+		for (i = 0; i < ((results.length < printLimit) ? (results.length) : (printLimit)); i++)
 			System.out.println(i + " - " + results[i].toString());
+	}
+	
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		String request, directoryPath;
+		URL location = SearchEngine.class.getProtectionDomain().getCodeSource().getLocation();
+		Path binFolder = null;
+		try {
+			binFolder = Paths.get(location.toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		Path indexFolder = binFolder.resolve("INDEX");
+		SearchEngine engine = new SearchEngine(indexFolder);
+
+		if (args.length > 0) {
+			request = String.join(" ", Arrays.copyOfRange(args, 0, args.length));
+			engine.printResults(request);
+		} else {
+			do {
+				System.out.println("\nLancez une recherche :");
+				request = scanner.nextLine();
+				engine.printResults(request);
+			} while (!request.equals("exit"));
 		}
 	}
 }

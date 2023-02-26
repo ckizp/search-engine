@@ -25,13 +25,13 @@ public class IndexedPage {
 		for (int i = 1; i < lines.length; i++) {
 			String[] link = lines[i].split(":");
 			if (link.length != 2) {
-	            throw new IllegalArgumentException("L'élément à l'indice " + i + " ne respecte pas le format suivant: mot:nombre_d'occurrence" + lines[i]);
+	            throw new IllegalArgumentException("L'élément à l'indice " + i+1 + " ne respecte pas le format suivant: mot:nombre_d'occurrence" + lines[i]);
 	        }
 			words[i-1] = link[0];
 			try {
 	            counts[i-1] = Integer.parseInt(link[1]);
 	        } catch (NumberFormatException e) {
-	            throw new IllegalArgumentException("L'élément à l'indice " + i + " ne respecte pas le format suivant: mot:nombre_d'occurrence" + lines[1]);
+	            throw new IllegalArgumentException("L'élément à l'indice " + i+1 + " ne respecte pas le format suivant: mot:nombre_d'occurrence" + lines[1]);
 	        }
 		}
 	}
@@ -132,7 +132,7 @@ public class IndexedPage {
 		
 		double norm1 = this.getNorm();
 		double norm2 = document.getNorm();
-		return sum / (norm1 * norm2);
+		return (sum / (norm1 * norm2))*100;
 	}
 	
 	public String toString() {
