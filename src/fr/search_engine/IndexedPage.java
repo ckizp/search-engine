@@ -138,4 +138,52 @@ public class IndexedPage {
 	public String toString() {
 		return "IndexedPage [url=" + (url != null ? url : "non définie") + "]";
 	}
+	
+		public void lemmatization()
+	{
+		
+		
+		
+		
+		
+		 try
+		    {
+		      // Le fichier d'entrée
+		      File file = new File("//pathDuFichieràmettre");    
+		      // Créer l'objet File Reader
+		      FileReader fr = new FileReader(file);  
+		      // Créer l'objet BufferedReader        
+		      BufferedReader br = new BufferedReader(fr);  
+		      StringBuffer sb = new StringBuffer();    
+		      String line;
+		      while((line = br.readLine()) != null)
+		      {
+		        // ajoute la ligne au buffer
+		        sb.append(line);      
+		        sb.append("\n");     
+		      }
+		      fr.close();    
+		       
+		    }
+		    catch(IOException e)
+		    {
+		      e.printStackTrace();
+		    }
+		 
+		 	
+		 	int cpt = 0;
+		 	
+		
+		 	
+		 
+		 
+		 
+		 
+		 
+		
+	
+		
+		
+	}
+	
 }
