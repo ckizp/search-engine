@@ -1,4 +1,4 @@
-package fr.search_engine;
+package search_engine;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -12,6 +12,7 @@ public class IndexedPage {
 	private String url;
 	private String[] words;
 	private int[] counts;
+	private String text;
 	
 	public IndexedPage(String[] lines) throws IllegalArgumentException {
 	    if (lines == null || lines.length < 1) {
@@ -71,6 +72,7 @@ public class IndexedPage {
 		text = text.replaceAll("[^\\p{L} ]", "");
 		text = Normalizer.normalize(text, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
 		text = text.toLowerCase();
+		this.text = text;
 		
 		// On découpe le texte en mots qu'on stocke dans un table de type String[]
 		String[] splitText = text.split(" ");
@@ -94,11 +96,39 @@ public class IndexedPage {
 		}
 	}
 	
+	public String[] getWords() {
+		return words;
+	}
+
+	public void setWords(String[] words) {
+		this.words = words;
+	}
+
+	public int[] getCounts() {
+		return counts;
+	}
+
+	public void setCounts(int[] counts) {
+		this.counts = counts;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
 	public String getUrl() {
 		return this.url;
 	}
-	
-    public double getNorm() {
+
+    public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public double getNorm() {
     	// Calcule et renvoie la norme du vecteur à partir du nombre d'occurrences de chaque mot
     	int sum = 0;
     	for (int count : counts)
@@ -138,52 +168,10 @@ public class IndexedPage {
 	public String toString() {
 		return "IndexedPage [url=" + (url != null ? url : "non définie") + "]";
 	}
+
+
+
+
 	
-		public void lemmatization()
-	{
-		
-		
-		
-		
-		
-		 try
-		    {
-		      // Le fichier d'entrée
-		      File file = new File("//pathDuFichieràmettre");    
-		      // Créer l'objet File Reader
-		      FileReader fr = new FileReader(file);  
-		      // Créer l'objet BufferedReader        
-		      BufferedReader br = new BufferedReader(fr);  
-		      StringBuffer sb = new StringBuffer();    
-		      String line;
-		      while((line = br.readLine()) != null)
-		      {
-		        // ajoute la ligne au buffer
-		        sb.append(line);      
-		        sb.append("\n");     
-		      }
-		      fr.close();    
-		       
-		    }
-		    catch(IOException e)
-		    {
-		      e.printStackTrace();
-		    }
-		 
-		 	
-		 	int cpt = 0;
-		 	
-		
-		 	
-		 
-		 
-		 
-		 
-		 
-		
-	
-		
-		
-	}
 	
 }
