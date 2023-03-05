@@ -1,4 +1,4 @@
-package search_engine;
+package fr.search_engine;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.List;
+
 
 public class IndexedPage {
 	private String url;
