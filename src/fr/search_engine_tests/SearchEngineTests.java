@@ -25,6 +25,21 @@ public class SearchEngineTests {
 		System.out.println("Le nombre d'occurrences du mot 'lumière' dans la page 4 est : " + page4.getCount("lumiere"));
 		System.out.println("valeur de la coordonnée correspondant au mot 'lumière' : " + page4.getPonderation("lumiere"));
 		System.out.println("Degré de similarité entre la page 3 et page 4 : " + page3.proximity(page4));
+		
+				
+		
+		Lemmatizer lemmatizer = new Lemmatizer("french_dictionary.txt");
+
+		String lemmatizedText = lemmatizer.processText(page3.getText());
+		IndexedPage lemmatizedPage = new IndexedPage(lemmatizedText);
+
+		System.out.println("Texte lemmatisé");
+		System.out.println(lemmatizedPage.getText());
+
+
+	
+		
+		
 	}
 }
 
