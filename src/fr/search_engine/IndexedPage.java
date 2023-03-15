@@ -1,91 +1,133 @@
 package fr.search_engine;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import fr.tools.Lemmatizer;
 
 public class IndexedPage {
 	private String url;
 	private String[] words;
 	private int[] counts;
-	private String text;
+	private HashMap<String, Integer> occurrences;
 	
 	public IndexedPage(String[] lines) throws IllegalArgumentException {
+		int i = 0;
+		occurrences = new HashMap<>();
+		Lemmatizer lemmatizer = new Lemmatizer(".\\\\src\\\\lemmatisation\\\\");
 	    if (lines == null || lines.length < 1) {
-	        throw new IllegalArgumentException("Le tableau n'est pas initialisé ou est de taille 0");
+	        throw new IllegalArgumentException("The array in argument may not have been initialized or is empty.");
 	    }
+	    
 		url = lines[0];
 		
-		words = new String[lines.length - 1];
-		counts = new int[lines.length - 1];
+		HashMap<String, Integer> links = new HashMap<>();
 		
-		for (int i = 1; i < lines.length; i++) {
+		for (i = 1; i < lines.length; i++) {
 			String[] link = lines[i].split(":");
 			if (link.length != 2) {
-	            throw new IllegalArgumentException("L'élément à l'indice " + i+1 + " ne respecte pas le format suivant: mot:nombre_d'occurrence" + lines[i]);
+	            throw new IllegalArgumentException("The element at index " + i+1 + " doesn't respect the following format: word:occurrence_number (" + lines[i] + ")");
 	        }
-			words[i-1] = link[0];
+			
+			link[0] = lemmatizer.lemmatize(link[0]);
+			occurrences.put(link[0], 0);
 			try {
-	            counts[i-1] = Integer.parseInt(link[1]);
+				links.put(link[0], links.get(link[0]) + Integer.parseInt(link[1]));
 	        } catch (NumberFormatException e) {
-	            throw new IllegalArgumentException("L'élément à l'indice " + i+1 + " ne respecte pas le format suivant: mot:nombre_d'occurrence" + lines[1]);
+	            throw new IllegalArgumentException("The element at index " + i+1 + " doesn't respect the following format: word:occurrence_number (" + lines[1] + ")");
 	        }
+		}
+		
+		words = new String[links.size()];
+		counts = new int[links.size()];
+		
+		i = 0;
+		for (String word : links.keySet()) {
+			words[i] = word;
+			counts[i] = links.get(word);
+			i++;
+		}
+		
+		for (i = 0; i < words.length; i++) {
+			System.out.println(words[i] + ":" + counts[i]);
 		}
 	}
 	
 	public IndexedPage(Path path) throws IllegalArgumentException {
+		int i = 0;
+		Lemmatizer lemmatizer = new Lemmatizer(".\\\\src\\\\lemmatisation\\\\");
 		try {
 			List<String> allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
 			if (allLines.size() < 1) {
-				throw new IllegalArgumentException("Le document " + path.getFileName() + " est vide");
+				throw new IllegalArgumentException("The document " + path.getFileName() + " is empty");
 			}
 			url = allLines.get(0);
 			
 			words = new String[allLines.size()-1];
 			counts = new int[allLines.size()-1];
 			
-			for (int i = 1; i < allLines.size(); i++) {
+			HashMap<String, Integer> links = new HashMap<>();
+			
+			for (i = 1; i < allLines.size(); i++) {
 				String[] link = allLines.get(i).split(":");
 				if (link.length != 2) {
 					throw new IllegalArgumentException("La ligne n°" + i + " du document " + path.getFileName() + " ne respecte pas le format suivant: mot:nombre_d'occurrence");
 				}
-				words[i-1] = link[0];
+				
+				links.put(link[0], 0);
 				try {
-					counts[i-1] = Integer.parseInt(link[1]);
+					links.put(link[0], links.get(link[0]) + Integer.parseInt(link[1]));
 				} catch (NumberFormatException e) {
 					throw new IllegalArgumentException("La ligne n°" + i + " du document " + path.getFileName() + " ne respecte pas le format suivant: mot:nombre_d'occurrence");
 				}
+			}
+			i = 0;
+			for (String word : links.keySet()) {
+				words[i] = word;
+				counts[i] = links.get(word);
+				i++;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	
 	public IndexedPage(String text) {
 		int i = 0;
-		
-		// On traite le texte afin d'enlever les ponctuations, les chiffres, les accents et remplacer les majuscules par des minuscules
-		text = text.replaceAll("[^\\p{L} ]", "");
-		text = Normalizer.normalize(text, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+
 		text = text.toLowerCase();
-		this.text = text;
-		
+
 		// On découpe le texte en mots qu'on stocke dans un table de type String[]
 		String[] splitText = text.split(" ");
 		
 		// Utilisation d'une HashMap car écrase la valeur d'une clé si la clé existe déjà
 		HashMap<String, Integer> links = new HashMap<>();
 		for (String word : splitText) {
+			if (blackListedWords.contains(word) || word.length() <= 2)
+				continue;
+			char firstLetter = word.charAt(0);
+			if (!dictionary.containsKey(firstLetter)) 
+				this.loadDictionary(firstLetter);
+				
+			if (dictionary.get(firstLetter).containsKey(word))
+				word = dictionary.get(firstLetter).get(word);
+			
 			if (!links.containsKey(word))
 				links.put(word, 1);
 			else
 				links.put(word, links.get(word) + 1);
 		}
+		
 		
 		words = new String[links.size()];
 		counts = new int[links.size()];
@@ -97,39 +139,11 @@ public class IndexedPage {
 		}
 	}
 	
-	public String[] getWords() {
-		return words;
-	}
-
-	public void setWords(String[] words) {
-		this.words = words;
-	}
-
-	public int[] getCounts() {
-		return counts;
-	}
-
-	public void setCounts(int[] counts) {
-		this.counts = counts;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	
 	public String getUrl() {
 		return this.url;
 	}
-
-    public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public double getNorm() {
+	
+    public double getNorm() {
     	// Calcule et renvoie la norme du vecteur à partir du nombre d'occurrences de chaque mot
     	int sum = 0;
     	for (int count : counts)
@@ -169,10 +183,4 @@ public class IndexedPage {
 	public String toString() {
 		return "IndexedPage [url=" + (url != null ? url : "non définie") + "]";
 	}
-
-
-
-
-	
-	
 }

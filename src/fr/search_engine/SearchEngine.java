@@ -16,7 +16,7 @@ public class SearchEngine {
 	private Path indexation_directory;
 	private IndexedPage[] pages;
 	
-	public SearchEngine(Path indexation_directory) {
+	public SearchEngine(Path indexation_directory) throws IOException {
 		int i = 0;
 		this.indexation_directory = indexation_directory;
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(indexation_directory, path -> Files.isRegularFile(path) && path.toString().endsWith(".txt"))) {
@@ -77,19 +77,25 @@ public class SearchEngine {
 	
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		String request, directoryPath;
+		String request;
 		URL location = SearchEngine.class.getProtectionDomain().getCodeSource().getLocation();
 		Path binFolder = null;
+		SearchEngine engine = null;
+		
 		try {
 			binFolder = Paths.get(location.toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 		Path indexFolder = binFolder.resolve("INDEX");
-		SearchEngine engine = new SearchEngine(indexFolder);
+		try {
+			engine = new SearchEngine(indexFolder);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		if (args.length > 0) {
-			request = String.join(" ", Arrays.copyOfRange(args, 0, args.length));
+			request = String.join(" ", args);
 			engine.printResults(request);
 		} else {
 			do {
@@ -98,5 +104,6 @@ public class SearchEngine {
 				engine.printResults(request);
 			} while (!request.equals("exit"));
 		}
+		scanner.close();
 	}
 }
