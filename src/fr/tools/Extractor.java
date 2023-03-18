@@ -1,4 +1,4 @@
-package fr.tools;
+package tools;
 
 import java.io.FileWriter;
 import java.io.IOException;

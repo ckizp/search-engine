@@ -23,6 +23,7 @@ public class Lemmatizer {
     }
 
     public String lemmatize(String word) {
+    	System.out.println(this.lemmas);
         String lemma = this.lemmas.get(word);
         if (lemma != null) {
             return lemma;
@@ -35,6 +36,7 @@ public class Lemmatizer {
         String[] words = text.split("\\s+");
         StringBuilder sb = new StringBuilder();
         for (String word : words) {
+        	System.out.println(word);
             sb.append(lemmatize(word)).append(" ");
         }
         return sb.toString().trim();

@@ -1,4 +1,4 @@
-package fr.tools;
+package tools;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,8 +34,7 @@ public class Lemmatizer {
 	public void load(char character) {
 		character = this.normalize(character);
 		
-		int asciiCode = (int) Character.toLowerCase(character) - 61;
-		if (asciiCode < 0 || asciiCode > 26 || this.hasLoaded(character)) return;
+		if (!this.hasLoaded(character)) return;
 
 		Path path = Paths.get(directoryPath + character + ".txt");
 		try (BufferedReader reader = Files.newBufferedReader(path)) {
@@ -50,13 +49,13 @@ public class Lemmatizer {
 	public String lemmatize(String word) {
 		if (word.length() == 0 || blacklistedWords.contains(word.toLowerCase())) return "";
 		char firstChar = this.normalize(word.charAt(0));
-		
 		if (!dictionary.containsKey(firstChar)) {
 			dictionary.put(firstChar, new HashMap<String, String>());
 			this.load(firstChar);
 		}
-		
-		if (!dictionary.get(firstChar).containsKey(word)) return word;
+		if (!dictionary.get(firstChar).containsKey(word)) {
+			return word;
+		}
 		return dictionary.get(firstChar).get(word);
 	}	
 	

@@ -1,8 +1,8 @@
-package fr.search_engine_tests;
+package search_engine_tests;
 
 import java.util.HashMap;
-
-import fr.search_engine.IndexedPage;
+import search_engine.IndexedPage;
+import search_engine.SearchResult;
 
 public class SearchEngineTests {
 	

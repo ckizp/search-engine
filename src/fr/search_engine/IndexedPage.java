@@ -1,4 +1,4 @@
-package fr.search_engine;
+package search_engine;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import fr.tools.Lemmatizer;
+import tools.Lemmatizer;
 
 public class IndexedPage {
 	private String url;
@@ -48,35 +48,41 @@ public class IndexedPage {
 	}
 	
 	public IndexedPage(Path path) throws IllegalArgumentException {
-		int i;
-		occurrences = new HashMap<>();
-		Lemmatizer lemmatizer = new Lemmatizer(".\\src\\lemmatisation\\");
-		try {
-			List<String> allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
-			if (allLines.size() < 1)
-				throw new IllegalArgumentException("The document " + path.getFileName() + " is empty");
-			url = allLines.get(0);
-			
-			for (i = 1; i < allLines.size(); i++) {
-				String[] link = allLines.get(i).split(":");
-				if (link.length != 2)
-					throw new IllegalArgumentException("La ligne n°" + i + " du document " + path.getFileName() + " ne respecte pas le format suivant: mot:nombre_d'occurrence");
-				link[0] = lemmatizer.lemmatize(link[0]);
-				if (link[0].equals(""))
-					continue;
-				try {
-					occurrences.put(link[0], Integer.parseInt(link[1]));
-				} catch (NumberFormatException e) {
-					throw new IllegalArgumentException("La ligne n°" + i + " du document " + path.getFileName() + " ne respecte pas le format suivant: mot:nombre_d'occurrence");
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		for (String str : occurrences.keySet()) {
-			System.out.println(str + ":" + occurrences.get(str));
-		}
+	    int i;
+	    occurrences = new HashMap<>();
+	    Lemmatizer lemmatizer = new Lemmatizer(".\\src\\lemmatisation\\");
+	    try {
+	        if (!Files.exists(path))
+	            throw new IllegalArgumentException("The file " + path + " does not exist");
+	        if (!Files.isRegularFile(path))
+	            throw new IllegalArgumentException("The path " + path + " does not lead to a regular file");
+	        if (!Files.isReadable(path))
+	            throw new IllegalArgumentException("The file " + path + " is not readable");
+	        List<String> allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
+	        if (allLines.size() < 1)
+	            throw new IllegalArgumentException("The document " + path.getFileName() + " is empty");
+	        url = allLines.get(0);
+	        for (i = 1; i < allLines.size(); i++) {
+	            String[] link = allLines.get(i).split(":");
+	            if (link.length != 2)
+	                throw new IllegalArgumentException("La ligne n°" + i + " du document " + path.getFileName() + " ne respecte pas le format suivant: mot:nombre_d'occurrence");
+	            link[0] = lemmatizer.lemmatize(link[0]);
+	            if (link[0].equals(""))
+	                continue;
+	            try {
+	                occurrences.put(link[0], Integer.parseInt(link[1]));
+	            } catch (NumberFormatException e) {
+	                throw new IllegalArgumentException("La ligne n°" + i + " du document " + path.getFileName() + " ne respecte pas le format suivant: mot:nombre_d'occurrence");
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    for (String str : occurrences.keySet()) {
+	        System.out.println(str + ":" + occurrences.get(str));
+	    }
 	}
+
 	
 	public IndexedPage(String text) {
 		int i = 0;
@@ -89,10 +95,15 @@ public class IndexedPage {
 		
 
 		for (String word : splitText) {
-			if (!occurrences.containsKey(word))
+			word = lemmatizer.lemmatize(word);
+			if (!occurrences.containsKey(word)) {
 				occurrences.put(word, 1);
+			}
+				
 			else
+			{
 				occurrences.put(word, occurrences.get(word) + 1);
+			}
 		}
 		for (String str : occurrences.keySet()) {
 			System.out.println(str + ":" + occurrences.get(str));

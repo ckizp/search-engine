@@ -1,4 +1,4 @@
-package fr.search_engine;
+package search_engine;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -35,12 +35,19 @@ public class SearchEngine {
 	}
 	
 	public IndexedPage getPage(int i) throws IndexOutOfBoundsException {
-		if (i < 0 || i >= pages.length)
-			throw new IndexOutOfBoundsException("Impossible d'accéder au document à l'index " + i + ". Nombre de documents : " + this.getPagesNumber());
-		return pages[i];
+	    if (pages == null || pages.length == 0) {
+	        throw new IndexOutOfBoundsException("The pages array is null or empty.");
+	    }
+	    
+	    if (i < 0 || i >= pages.length) {
+	        throw new IndexOutOfBoundsException("Impossible d'accéder au document à l'index " + i + ". Nombre de documents : " + this.getPagesNumber());
+	    }
+	    
+	    return pages[i];
 	}
+
 	
-	private int getPagesNumber() {
+	public int getPagesNumber() {
 		return pages.length;
 	}
 	
@@ -75,35 +82,28 @@ public class SearchEngine {
 			System.out.println(i + " - " + results[i].toString());
 	}
 	
-	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
-		String request;
-		URL location = SearchEngine.class.getProtectionDomain().getCodeSource().getLocation();
-		Path binFolder = null;
-		SearchEngine engine = null;
-		
-		try {
-			binFolder = Paths.get(location.toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		Path indexFolder = binFolder.resolve("INDEX");
-		try {
-			engine = new SearchEngine(indexFolder);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public static void main(String[] args) throws URISyntaxException, IOException {
+	    Scanner scanner = new Scanner(System.in);
+	    String request;
+	    URL location = SearchEngine.class.getProtectionDomain().getCodeSource().getLocation();
+	    Path binFolder = Paths.get(location.toURI());
+	    Path indexFolder = binFolder.resolve("INDEX");
+	    SearchEngine engine = new SearchEngine(indexFolder);
 
-		if (args.length > 0) {
-			request = String.join(" ", args);
-			engine.printResults(request);
-		} else {
-			do {
-				System.out.println("\nLancez une recherche :");
-				request = scanner.nextLine();
-				engine.printResults(request);
-			} while (!request.equals("exit"));
-		}
-		scanner.close();
+	    if (args.length > 0) {
+	        request = String.join(" ", args);
+	        engine.printResults(request);
+	    } else {
+	        do {
+	            System.out.println("\nLancez une recherche :");
+	            request = scanner.nextLine();
+	            if (request.isEmpty()) {
+	                throw new IllegalArgumentException("La requête ne peut pas être vide !");
+	            }
+	            engine.printResults(request);
+	        } while (!request.equals("exit"));
+	    }
+	    scanner.close();
 	}
+
 }

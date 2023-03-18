@@ -1,4 +1,4 @@
-package fr.search_engine;
+package search_engine;
 
 public class SearchResult {
 	// VARIABLES
