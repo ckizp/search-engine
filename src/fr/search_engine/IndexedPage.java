@@ -1,16 +1,11 @@
 package search_engine;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import tools.Lemmatizer;
 
@@ -42,9 +37,6 @@ public class IndexedPage {
 	            throw new IllegalArgumentException("The element at index " + i+1 + " doesn't respect the following format: word:occurrence_number (" + lines[1] + ")");
 	        }
 		}
-		for (String str : occurrences.keySet()) {
-			System.out.println(str + ":" + occurrences.get(str));
-		}
 	}
 	
 	public IndexedPage(Path path) throws IllegalArgumentException {
@@ -52,12 +44,6 @@ public class IndexedPage {
 	    occurrences = new HashMap<>();
 	    Lemmatizer lemmatizer = new Lemmatizer(".\\src\\lemmatisation\\");
 	    try {
-	        if (!Files.exists(path))
-	            throw new IllegalArgumentException("The file " + path + " does not exist");
-	        if (!Files.isRegularFile(path))
-	            throw new IllegalArgumentException("The path " + path + " does not lead to a regular file");
-	        if (!Files.isReadable(path))
-	            throw new IllegalArgumentException("The file " + path + " is not readable");
 	        List<String> allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
 	        if (allLines.size() < 1)
 	            throw new IllegalArgumentException("The document " + path.getFileName() + " is empty");
@@ -66,7 +52,7 @@ public class IndexedPage {
 	            String[] link = allLines.get(i).split(":");
 	            if (link.length != 2)
 	                throw new IllegalArgumentException("La ligne n°" + i + " du document " + path.getFileName() + " ne respecte pas le format suivant: mot:nombre_d'occurrence");
-	            link[0] = lemmatizer.lemmatize(link[0]);
+	            //link[0] = lemmatizer.lemmatize(link[0]);
 	            if (link[0].equals(""))
 	                continue;
 	            try {
@@ -77,9 +63,6 @@ public class IndexedPage {
 	        }
 	    } catch (IOException e) {
 	        e.printStackTrace();
-	    }
-	    for (String str : occurrences.keySet()) {
-	        System.out.println(str + ":" + occurrences.get(str));
 	    }
 	}
 
@@ -96,19 +79,14 @@ public class IndexedPage {
 
 		for (String word : splitText) {
 			word = lemmatizer.lemmatize(word);
-			if (!occurrences.containsKey(word)) {
+			if (!occurrences.containsKey(word))
 				occurrences.put(word, 1);
-			}
-				
 			else
-			{
 				occurrences.put(word, occurrences.get(word) + 1);
-			}
 		}
-		for (String str : occurrences.keySet()) {
-			System.out.println(str + ":" + occurrences.get(str));
-		}
-
+		
+		for (String word : occurrences.keySet())
+			System.out.println(word + ":" + occurrences.get(word));
 	}
 	
 	public String getUrl() {
@@ -144,10 +122,9 @@ public class IndexedPage {
 			if (document.getCount(word) > 0)
 				sum += this.getCount(word) * document.getCount(word);
 		}
-		
 		double norm1 = this.getNorm();
 		double norm2 = document.getNorm();
-		return (sum / (norm1 * norm2))*100;
+		return (sum / (norm1 * norm2)) * 100;
 	}
 	
 	public String toString() {

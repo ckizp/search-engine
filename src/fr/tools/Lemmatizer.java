@@ -33,14 +33,12 @@ public class Lemmatizer {
 	
 	public void load(char character) {
 		character = this.normalize(character);
-		
-		if (!this.hasLoaded(character)) return;
 
 		Path path = Paths.get(directoryPath + character + ".txt");
 		try (BufferedReader reader = Files.newBufferedReader(path)) {
-			Map<String, String> map = reader.lines().map(line -> line.split(":")).collect(Collectors.toMap(arr -> arr[0], arr -> arr[1]));
+			Map<String, String> map = reader.lines().map(line -> line.split(":")).filter(line -> line.length == 2).collect(Collectors.toMap(arr -> arr[0], arr -> arr[1]));
+			
 			dictionary.put(character, map);
-			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,7 +47,7 @@ public class Lemmatizer {
 	public String lemmatize(String word) {
 		if (word.length() == 0 || blacklistedWords.contains(word.toLowerCase())) return "";
 		char firstChar = this.normalize(word.charAt(0));
-		if (!dictionary.containsKey(firstChar)) {
+		if (!this.hasLoaded(firstChar)) {
 			dictionary.put(firstChar, new HashMap<String, String>());
 			this.load(firstChar);
 		}

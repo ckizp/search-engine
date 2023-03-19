@@ -1,8 +1,6 @@
 package search_engine_tests;
 
-import java.util.HashMap;
 import search_engine.IndexedPage;
-import search_engine.SearchResult;
 
 public class SearchEngineTests {
 	
@@ -13,7 +11,7 @@ public class SearchEngineTests {
 		System.out.println(page1.getPonderation("hello")); 
 		System.out.println(page1.getPonderation("other"));
 		IndexedPage page2 = new IndexedPage(new String[] {"http://fr.example2.org", "hello:5", "france:2"});
-		System.out.println("Degre de similarite des deux pages: " + page1.proximity(page2));*/
+		System.out.println("Degre de similarite des deux pages: " + page1.proximity(page2) + "%");*/
 		
 		//Tests avec le constructeur IndexedPage(String text)
 		/*IndexedPage page3 = new IndexedPage("La lumière éclaire le ciel bleu, les oiseaux chantent et la vie est belle. Les couleurs de l'arc-en-ciel sont magnifiques et les rayons du soleil réchauffent la terre. Les océans sont profonds et les montagnes sont hautes. Les fleurs sont colorées et les arbres sont verts. Une brise légère souffle et la pluie tombe doucement. La nuit est calme et les étoiles brillent. La nature est magique et la vie est merveilleuse. Le monde est grand et les possibilités sont infinies. La joie et l'amour sont partout et la paix est possible. Nous sommes tous connectés et nous devons respecter la terre.");
@@ -23,6 +21,6 @@ public class SearchEngineTests {
 		System.out.println("valeur de la coordonnée correspondant au mot 'lumière' : " + page4.getPonderation("lumiere"));
 		System.out.println("Degré de similarité entre la page 3 et page 4 : " + page3.proximity(page4));*/
 		
-		IndexedPage page4 = new IndexedPage("Mange mange Mangerons Mangeaient mangé mangés mangée mangées quadrillé quadrillés");
+		IndexedPage page5 = new IndexedPage("Mange mange Mangerons Mangeaient mangé mangés mangée mangées quadrillé quadrillés");
 	}
 }
