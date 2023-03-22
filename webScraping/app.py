@@ -6,6 +6,13 @@ app = Flask(__name__, template_folder='./templates')
 
 @app.route('/')
 def home():
+    """
+    The home function is the main function of this application.
+    It makes a request to the website, parses its HTML content using BeautifulSoup and extracts all h2, h3, p and ul tags from it.
+    Then it renders the data to an HTML template.
+
+    :return: The html template with the data
+    """
     # Make a request to the website
     url = "https://fr.vikidia.org/wiki/Pomme"
     response = requests.get(url)
@@ -31,6 +38,12 @@ def home():
 
 @app.route('/article', methods=['GET', 'POST'])
 def article():
+    """
+    The article function is used to display the article page.
+    It takes no arguments and returns a rendered template of the article page.
+
+    :return: The article
+    """
     # Define the title, image, and contents variables again
     url = "https://fr.vikidia.org/wiki/Pomme"
     response = requests.get(url)

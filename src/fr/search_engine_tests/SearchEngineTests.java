@@ -3,7 +3,7 @@ package search_engine_tests;
 import search_engine.IndexedPage;
 
 public class SearchEngineTests {
-	
+
 	public static void main(String[] args) {
 		// Tests avec le constructeur IndexedPage(String[] lines)
 		/*IndexedPage page1 = new IndexedPage(new String[] {"http://fr.example.org", "hello:10", "world:5"});
@@ -22,5 +22,6 @@ public class SearchEngineTests {
 		System.out.println("Degré de similarité entre la page 3 et page 4 : " + page3.proximity(page4));*/
 		
 		IndexedPage page5 = new IndexedPage("Mange mange Mangerons Mangeaient mangé mangés mangée mangées quadrillé quadrillés");
+
 	}
 }
