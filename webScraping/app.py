@@ -39,7 +39,6 @@ def article():
     for title in soup.find_all('title'):
         if remove_string_title in title.text:
             title.string = title.text.replace(remove_string_title, "")
-    title = title.text
     image = soup.find('div', class_='mw-parser-output').find('img')
     contents = soup.find_all(['h1', 'h2', 'h3', 'p', 'ul', 'li'])
     remove_string = "[modifier | modifier le wikicode]"

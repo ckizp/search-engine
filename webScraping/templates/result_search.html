@@ -8,7 +8,7 @@
 
   <!-- <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}"> -->
 
-  <title>{{title.text}}</title>
+  <title>{{title}}</title>
 
   <!--
     - custom css link
@@ -37,7 +37,7 @@
 
     <div class="article-content">
       <a href="{{ url_for('article') }}">
-        <h3 class="article-title">{{title.text}}</h3>
+        <h3 class="article-title">{{title}}</h3>
       </a>
       {% if contents[1].text|length > 150 %}
         <p class="article-text">{{ contents[1].text[:150] }}...</p>
