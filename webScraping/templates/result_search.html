@@ -28,7 +28,7 @@
       - article card
     -->
 
-  <article class="article-card">
+  <article class="article-card" onclick="window.location='{{ url_for('article') }}';">
     <div class="img-box">
       <!-- <img src="https://source.unsplash.com/featured?apple/660x528" class="article-banner"> -->
       <img src="{{ image['src'] }}" alt="{{ image['alt'] }}" class="article-banner">
