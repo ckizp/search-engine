@@ -33,6 +33,6 @@ Voici les images de la version 0.1 à 4:00am le 25/03/2023:
 ## Comment j'ai réaliser la boucle ( Code à l'indienne ) 
 ![Challenge](https://user-images.githubusercontent.com/75495075/227686711-b226389b-26ee-4224-96ec-4896bed1877c.PNG)
 
-##Rendu Final : 4:01am 25/03/2023
+## Rendu Final : 4:01am 25/03/2023
 ![Capture3](https://user-images.githubusercontent.com/75495075/227686915-d7787161-1dab-4e8b-b950-c52f0c9006da.PNG)
 
