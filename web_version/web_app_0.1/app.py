@@ -6,25 +6,25 @@ app = Flask(__name__, template_folder='./templates')
 
 @app.route('/')
 def home():
+
+    """ URL 1 """
     url = "https://fr.vikidia.org/wiki/Pomme"
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     title_tag = soup.find('title')
     title = title_tag.string.replace(" - l’encyclopédie des 8-13 ans", "")
     title_tag.string.replace_with(title)
-    image = soup.find('div', class_='mw-parser-output').find('img')
     contents = soup.find_all(['h1', 'h2', 'h3', 'p', 'ul', 'li'])
-    h1_tags = soup.find_all('h1', class_='heading')
     remove_string_h2 = "[modifier | modifier le wikicode]"
+    
+    """ URL 2 """
     url2 = "https://fr.vikidia.org/wiki/BMW"
     response2 = requests.get(url2)
     soup2 = BeautifulSoup(response2.content, 'html.parser')
     title_tag2 = soup2.find('title')
     title2 = title_tag2.string.replace(" - l’encyclopédie des 8-13 ans", "")
     title_tag2.string.replace_with(title2)
-    image2 = soup2.find('div', class_='mw-parser-output').find('img')
     contents2 = soup2.find_all(['h1', 'h2', 'h3', 'p', 'ul', 'li'])
-    h1_tags2 = soup2.find_all('h1', class_='heading')
     remove_string_h2 = "[modifier | modifier le wikicode]"
     
     """ URL 3 """
@@ -54,7 +54,7 @@ def home():
         if remove_string_h2 in h2.text:
             h2.string = h2.text.replace(remove_string_h2, "")
     
-    return render_template('index.html', title=title, image=image, contents=contents, h1_tags=h1_tags, contents2=contents2,contents3=contents3,contents4=contents4,h1_tags2=h1_tags2)
+    return render_template('index.html', title=title,  contents=contents, contents2=contents2,contents3=contents3,contents4=contents4)
 
 
 if __name__ == '__main__':
