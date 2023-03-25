@@ -25,3 +25,14 @@ Voici le résultat en images du console :
 Voici le résultat du site après les url prédéfini : 
 ![capture 2](https://user-images.githubusercontent.com/75495075/227679906-251ac202-6190-4041-858a-b333dcd03a35.PNG)
 
+## Modification du programme Python et ajout de redirections vers Vikidia (3:50am le 25/03/2023)
+
+J'ai modifié le programme Python app.py pour faciliter l'implémentation de nouvelles fonctionnalités. De plus, j'ai ajouté un fichier texte contenant des mots basiques de tous les jours pour rediriger les utilisateurs vers les articles de Vikidia. Pour cela, j'ai utilisé la méthode de lecture de fichier en Python pour récupérer le contenu du fichier texte. Ensuite, j'ai utilisé la fonction random pour choisir un mot au hasard parmi ceux disponibles. Enfin, j'ai affiché le contenu correspondant à ce mot sur la page HTML.
+
+Voici les images de la version 0.1 à 4:00am le 25/03/2023: 
+## Comment j'ai réaliser la boucle ( Code à l'indienne ) 
+![Challenge](https://user-images.githubusercontent.com/75495075/227686711-b226389b-26ee-4224-96ec-4896bed1877c.PNG)
+
+##Rendu Final : 4:01am 25/03/2023
+![Capture3](https://user-images.githubusercontent.com/75495075/227686915-d7787161-1dab-4e8b-b950-c52f0c9006da.PNG)
+
