@@ -6,69 +6,56 @@ app = Flask(__name__, template_folder='./templates')
 
 @app.route('/')
 def home():
-    """
-    The home function is the main function of this application.
-    It makes a request to the website, parses its HTML content using BeautifulSoup and extracts all h2, h3, p and ul tags from it.
-    Then it renders the data to an HTML template.
-
-    :return: The html template with the data
-    """
-    # Make a request to the website
     url = "https://fr.vikidia.org/wiki/Pomme"
     response = requests.get(url)
-    # Parse the HTML content using BeautifulSoup
     soup = BeautifulSoup(response.content, 'html.parser')
-    # Extract the title, image and all h1, h2, h3, p, ul, li tags from the article
-
-    remove_string_title = "Vikidia, "
-    for title in soup.find_all('title'):
-        if remove_string_title in title.text:
-            title.string = title.text.replace(remove_string_title, "")
-
+    title_tag = soup.find('title')
+    title = title_tag.string.replace(" - l’encyclopédie des 8-13 ans", "")
+    title_tag.string.replace_with(title)
     image = soup.find('div', class_='mw-parser-output').find('img')
     contents = soup.find_all(['h1', 'h2', 'h3', 'p', 'ul', 'li'])
-    # Remove the string " [modifier | modifier le wikicode]" from each h2 tag's text
+    h1_tags = soup.find_all('h1', class_='heading')
     remove_string_h2 = "[modifier | modifier le wikicode]"
-    for h2 in soup.find_all('h2'):
+    url2 = "https://fr.vikidia.org/wiki/BMW"
+    response2 = requests.get(url2)
+    soup2 = BeautifulSoup(response2.content, 'html.parser')
+    title_tag2 = soup2.find('title')
+    title2 = title_tag2.string.replace(" - l’encyclopédie des 8-13 ans", "")
+    title_tag2.string.replace_with(title2)
+    image2 = soup2.find('div', class_='mw-parser-output').find('img')
+    contents2 = soup2.find_all(['h1', 'h2', 'h3', 'p', 'ul', 'li'])
+    h1_tags2 = soup2.find_all('h1', class_='heading')
+    remove_string_h2 = "[modifier | modifier le wikicode]"
+    
+    """ URL 3 """
+    url3 = "https://fr.vikidia.org/wiki/Emmanuel_Macron"
+    response3 = requests.get(url3)
+    soup3 = BeautifulSoup(response3.content, 'html.parser')
+    title_tag3 = soup3.find('title')
+    title3 = title_tag3.string.replace(" - l’encyclopédie des 8-13 ans", "")
+    title_tag3.string.replace_with(title3)
+    contents3 = soup3.find_all(['h1', 'h2', 'h3', 'p', 'ul', 'li'])
+
+
+    """ URL 4 """
+    url4 = "https://fr.vikidia.org/wiki/Nice"
+    response4 = requests.get(url4)
+    soup4 = BeautifulSoup(response4.content, 'html.parser')
+    title_tag4 = soup4.find('title')
+    title4 = title_tag4.string.replace(" - l’encyclopédie des 8-13 ans", "")
+    title_tag4.string.replace_with(title4)
+    contents4 = soup4.find_all(['h1', 'h2', 'h3', 'p', 'ul', 'li'])
+    
+    for h2 in soup.find_all('h3'):
         if remove_string_h2 in h2.text:
             h2.string = h2.text.replace(remove_string_h2, "")
-    # Render the data to the HTML template
-    return render_template('index.html', title=title, image=image, contents=contents)
+            
+    for h2 in soup2.find_all('h3'):
+        if remove_string_h2 in h2.text:
+            h2.string = h2.text.replace(remove_string_h2, "")
+    
+    return render_template('index.html', title=title, image=image, contents=contents, h1_tags=h1_tags, contents2=contents2,contents3=contents3,contents4=contents4,h1_tags2=h1_tags2)
 
-
-@app.route('/article', methods=['GET', 'POST'])
-def article():
-    """
-    The article function is used to display the article page.
-    It takes no arguments and returns a rendered template of the article page.
-
-    :return: The article
-    """
-    # Define the title, image, and contents variables again
-    url = "https://fr.vikidia.org/wiki/Pomme"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
-    remove_string_title = "Vikidia, "
-    for title in soup.find_all('title'):
-        if remove_string_title in title.text:
-            title.string = title.text.replace(remove_string_title, "")
-    title = title.text
-    image = soup.find('div', class_='mw-parser-output').find('img')
-    contents = soup.find_all(['h1', 'h2', 'h3', 'p', 'ul', 'li'])
-    remove_string_h2 = "[modifier | modifier le wikicode]"
-    for content in contents:
-        if remove_string_h2 in content.text:
-            content.string = content.text.replace(remove_string_h2, "")
-
-    if request.method == 'POST':
-        # do stuff when the form is submitted
-
-        # redirect to end the POST handling
-        # the redirect can be to the same route or somewhere else
-        return redirect(url_for('home'))
-
-    # show the form, it wasn't submitted
-    return render_template('article.html', title=title, image=image, contents=contents)
 
 if __name__ == '__main__':
     app.run(debug=True)
