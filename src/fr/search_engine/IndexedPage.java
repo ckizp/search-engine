@@ -50,14 +50,14 @@ public class IndexedPage {
 	        for (i = 1; i < allLines.size(); i++) {
 	            String[] link = allLines.get(i).split(":");
 	            if (link.length != 2)
-	                throw new IllegalArgumentException("La ligne nÂ°" + i + " du document " + path.getFileName() + " ne respecte pas le format suivant: mot:nombre_d'occurrence");
+	                throw new IllegalArgumentException("La ligne n°" + i + " du document " + path.getFileName() + " ne respecte pas le format suivant: mot:nombre_d'occurrence");
 	            //link[0] = lemmatizer.lemmatize(link[0]);
 	            if (link[0].equals(""))
 	                continue;
 	            try {
 	                occurrences.put(link[0], Integer.parseInt(link[1]));
 	            } catch (NumberFormatException e) {
-	                throw new IllegalArgumentException("La ligne nÂ°" + i + " du document " + path.getFileName() + " ne respecte pas le format suivant: mot:nombre_d'occurrence");
+	                throw new IllegalArgumentException("La ligne n°" + i + " du document " + path.getFileName() + " ne respecte pas le format suivant: mot:nombre_d'occurrence");
 	            }
 	        }
 	    } catch (IOException e) {
@@ -125,8 +125,8 @@ public class IndexedPage {
 		double norm2 = document.getNorm();
 		return (sum / (norm1 * norm2)) * 100;
 	}
-
+	
 	public String toString() {
-		return "IndexedPage [url=" + (url != null ? url : "non dÃ©finie") + "]";
+		return "IndexedPage [url=" + (url != null ? url : "non définie") + "]";
 	}
 }
