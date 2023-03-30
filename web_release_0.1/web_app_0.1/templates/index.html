@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width"/>
-    <title>Sapiensphere.org | &copy;</title>
+    <title>&copy;Knowle.</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
@@ -11,51 +11,46 @@
     <header>
         <div class="container">
             <nav>
-                <a href="index.html" class="brand">SAPIENSPHERE / ORG</a>
+                <a href="index.html" class="brand">Knowle.</a>
                 <ul class="menu">
                     <li><a href="#">Pages par thèmes</a></li>
+                    <li><a href="#" class="active">Acceuil</a></li>
                     <li><a href="#">Article au hasard</a></li>
-                    <li class="hidden"><a href="#">licence</a></li>
-                    <li class="hidden"><a href="#" class="btn">donation</a></li>
+                    <li class="hidden"><a href="#">Langue </a></li>
+                    <li class="hidden"><a href="#" class="btn">Langue : 🇫🇷</a></li>
                 </ul>
                 <ul class="nav-buttons">
                     <li><a href="#">Licence</a></li>
-                    <li><a href="#" class="btn">Faire un don</a></li>
+                    <li><a href="#" class="btn">Aide ?</a></li>
                 <ul>
                 <button class="menu-btn">
                     <i class="fas fa-bars"></i>
                 </button>
             </nav>
             <div class="header-body">
-                <h1>SAPIENSPHERE.</h1>
+                <h1>Knowle.</h1>
                 <div class="wrapper">
                     <div class="search-input">
                       <a href="" target="_blank" hidden></a>
-                      <input type="text" placeholder="Rechercher sur Sapiensphère (Moteur Vikidia)">
+                      <input type="text" placeholder="Rechercher dans knowle.">
                       <div class="autocom-box">
                       </div>
                       <div class="icon"><i class="fas fa-search"></i></div>
                     </div>
                   </div>
-                <a href="#" class="btn">+ Informatique</a>
-                <a href="#" class="btn">+ Littérature</a>
-                <a href="#" class="btn">+ Astronomie</a>
-                <a href="#" class="btn">+ Biologie</a>
-                <a href="#" class="btn">+ Religion</a>
+                <a href="#" class="btn">+ Athlèthe</a>
+                <a href="#" class="btn">+ Acteurs</a>
+                <a href="#" class="btn">+ Scientifique</a>
+                <a href="#" class="btn">+ Artiste</a>
+                <a href="#" class="btn">+ Ecrivain</a>
             </div>
             <div class="header-bottom">
-                <div class="bottom-heading">
-                    <h3>Voici nos articles labellisé du jour (Article générer par Vikidia)</h3>
-                    <a href="#">Voir les articles relié <i class="fas fa-arrow-right"></i></a>
-                </div>
                 <div class="panels">
                     <div class="panel">
                         <div class="panel-header">
-                            <span class="category">Article du jour n°1</span>
-                            <span></span>
+                            <span class="category">Article du jour : {{heading_text}}</span>
                         </div>
                         <div class="panel-body">
-                            <h2><!--{{ title }}--></h2>
                             {% if contents[1].text|length > 150 %}
                                 <p>{{ contents[1].text[:150] }}</p>
                             {% else %}
@@ -68,11 +63,11 @@
                     </div>
                     <div class="panel">
                         <div class="panel-header">
-                            <span class="category">Article du jour n°2</span>
-                            <span></span>
+                            <span class="category">Article du jour : {{heading_text2}}</span>
+                        
                         </div>
                         <div class="panel-body">
-                            <h2><!--{{ title }}--></h2>
+                    
                             {% if contents2[1].text|length > 120 %}
                                 <p>{{ contents2[1].text[:150] }}</p>
                             {% else %}
@@ -85,11 +80,11 @@
                     </div>
                     <div class="panel">
                         <div class="panel-header">
-                            <span class="category">Article du jour n°3</span>
-                            <span></span>
+                            <span class="category">Article du jour : {{heading_text3}}</span>
+                      
                         </div>
                         <div class="panel-body">
-                            <h2><!--{{ title }}--></h2>
+                        
                             {% if contents3[1].text|length > 120 %}
                                 <p>{{ contents3[1].text[:150] }}</p>
                             {% else %}
@@ -102,11 +97,11 @@
                     </div>
                     <div class="panel">
                         <div class="panel-header">
-                            <span class="category">Article du jour n°4</span>
-                            <span></span>
+                            <span class="category">Article du jour : {{heading_text4}}</span>
+                      
                         </div>
                         <div class="panel-body">
-                            <h2><!--{{ title }}--></h2>
+                    
                             {% if contents4[1].text|length > 120 %}
                                 <p>{{ contents4[1].text[:150] }}</p>
                             {% else %}
@@ -121,8 +116,8 @@
             </div>
         </div>
     </header>  
-    <script src="script.js"></script>    
-    <script src="suggestion.js"></script>
-    <script src="recherche.js"></script>   
+    <script src="{{ url_for('static', filename='js/recherche.js') }}"></script>    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/suggestion.js') }}"></script>   
   </body>
 </html>

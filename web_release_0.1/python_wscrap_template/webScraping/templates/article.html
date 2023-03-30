@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <form method="post">
+      <button type="submit">Do it!</button>
+    </form>
+    <!--{% if image %}
+      <img src="{{ image['src'] }}" alt="{{ image['alt'] }}">
+    {% endif %}-->
+    {% for content in contents %}
+      {% if content.name == 'h1' %}
+        <h1>{{ content.text }}</h1>
+      {% elif content.name == 'h2' %}
+        <h2>{{ content.text }}</h2>
+      {% elif content.name == 'h3' %}
+        <h3>{{ content.text }}</h3>
+      {% elif content.name == 'p' %}
+        {% if "[modifier | modifier le wikicode]" not in content.text %}
+          <p>{{ content.text }}</p>
+        {% endif %}
+      {% elif content.name == 'ul' %}
+        <ul>
+          {% for li in content.find_all('li') %}
+            {% if "[modifier | modifier le wikicode]" not in li.text %}
+              <li>{{ li.text }}</li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endfor %}
+  </body>
+</html>

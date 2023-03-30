@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+
 body{
     margin : 0;
-    font-family : 'Quicksand', sans-serif;
-    background-image: linear-gradient(to right, #97989f, #a0a1a8, #a9aab0, #b2b4b9, #bbbdc2, #bbbdc2, #bbbdc2, #bbbdc2, #b2b4b9, #a9aab0, #a0a1a8, #97989f);
+    font-family: 'Roboto Slab', serif;
+    background: linear-gradient(180deg, rgba(5,5,5,1) 0%, rgba(9,29,86,1) 32%, rgba(14,52,159,1) 49%, rgba(204,209,245,1) 100%);
     color : #ffffff;
 }
 
@@ -30,6 +33,7 @@ p{
 
 span{
     color : #000000;
+    font-weight:bold;
 }
 
 .container{
@@ -45,10 +49,10 @@ span{
 }
 
 .btn{
-    border : 1px solid;
+    border : 2px solid;
     border-color: #fff;
     padding : 0.7em 1.8em;
-    border-radius : 3em;
+    border-radius : 1em;
     font-size : 0.9em;
     transition : 0.3s;
     margin : 2em 0;     
@@ -83,6 +87,10 @@ nav li{
     margin : 0 0.7em;
 }
 
+.active{
+    color:rgb(255, 255, 255);
+    border-bottom:1px solid #ffffff;
+}
 .nav-buttons{
     justify-self : end;
 }
@@ -124,10 +132,16 @@ nav li{
     display : flex;
     justify-content : space-between;
     align-items : center;
+
 }
 
 .header-bottom{
-    width : 100%
+    width : 100%;
+    background-color: #fff;
+    color:#000;
+    border-top-right-radius: 1em;
+    border-top-left-radius: 1em;
+    
 }
 
 .link {
@@ -135,7 +149,7 @@ nav li{
 }
 
 .panels{
-    margin : 2em 0;
+    margin : 1.2em 0;
     gap : 2em;
 }
 
@@ -143,21 +157,11 @@ nav li{
     border-radius : 0.5em;
     padding : 1em;
     transition : 0.3s;
-    background-color: #e2e5ea;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background-color: rgb(255, 255, 255);
     max-height: 165px;
     overflow: hidden;
 }
 
-.panel:hover{
-    background : #000000;
-    color:#fff;
-}
-
-.panel:hover span,
-.panel:hover p ,.panel:hover h2{
-    color: #ffffff;
-}
 
 
 .panel-header span{
@@ -176,6 +180,7 @@ nav li{
     color: #000000;
     font-size : 0.9em;
     margin-top: 0.5em;
+    font-weight: inherit;
     text-overflow: ellipsis;
 }
 
@@ -248,7 +253,7 @@ nav li{
 
 ::selection{
     color: #fff;
-    background: #664AFF;
+    background: #88b9cb;
   }
   
   .wrapper{
@@ -256,9 +261,9 @@ nav li{
   }
   
   .wrapper .search-input{
-    background: #fff;
+    background: #ffffff;
     width: 100%;
-    border-radius: 5px;
+    border-radius: 15px;
     position: relative;
     box-shadow: 0px 1px 5px 3px rgba(0,0,0,0.12);
   }
@@ -268,10 +273,10 @@ nav li{
     width: 100%;
     outline: none;
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
     padding: 0 60px 0 20px;
     font-size: 18px;
-    box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
+    background-color: #ffffff;
   }
   
   .search-input.active input{
