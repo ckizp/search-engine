@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author akira
- *
- */
-module Webscraping {
-}
