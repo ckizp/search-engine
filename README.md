@@ -1,38 +1,75 @@
-# SearchEngine
 
-## Update du site à 00:54 le 25/03/2023
-Bienvenue sur le projet de notre site web de recherche de mots ! Ce projet vise à développer un site web interactif qui utilise un programme Java pour effectuer des recherches de mots. Nous avons choisi Java pour sa robustesse et ses capacités avancées en traitement de texte.
+# Projet SAE: Search Engine
+## projet incluant plusieurs language :
+    1. Java (Majoritaire)
+    2. HTML5
+    3. CSS
+    4. Python 3
+    5. JavaScript 
 
-Nous avons hébergé notre projet sur GitHub, une plateforme populaire de gestion de code source et de collaboration entre développeurs. Le référentiel (repository) de notre projet est disponible ici, où nous stockons tous les fichiers et les codes source nécessaires pour le site web et le programme Java.
+Le but de ce projet est de construire un moteur de recherche en Java, utilisable en ligne de commande.
+À terme, ce moteur devra délivrer des résultats pertinents en un temps raisonnable sur un site web de taille relativement important (10 000 à 50 000 pages).
+Le contenu francophone de Wikipédia étant trop vaste pour ce projet, nous nous rabattrons sur Vikidia, qui est une version de Wikipedia destinée aux enfants. Il contient environ 40 000 articles relativement courts, ce qui est un objectif raisonnable.
 
-En utilisant les fonctionnalités de Git, nous avons suivi l'historique des modifications apportées à notre code et avons collaboré avec d'autres membres de l'équipe pour améliorer constamment notre site web et notre programme Java. Nous sommes impatients de partager notre travail avec le monde entier et nous espérons que vous trouverez notre projet utile et intéressant. N'hésitez pas à contribuer ou à nous contacter pour toute question ou suggestion.
+## Indexation à Froid
 
-Voici la preview de notre site le 25/03/2023 à 00:51 : <img width="1440" alt="Capture d’écran 2023-03-25 à 00 51 18" src="https://user-images.githubusercontent.com/75495075/227663692-fb4f20db-7c0a-416f-9499-707a1cb1b36a.png">
+Pour l'instant, vous avez utilisé des fichiers d'index déjà fournis.
+Autrement dit, vous n'avez fait que la 2e moitié du travail : exploiter les résultats de l'indexation pour fournir des résultats en temps réel.
+Si vous voulez pouvoir effectuer des recherches sur un autre site que Vikidia.fr, il vous faut donc maîtriser aussi la phase amont d'indexation.
+Cela suppose de savoir récupérer une page web d'un site (effectuer une requête GET)
+de parser la page pour récupérer le texte de la page (sans les balises notamment)
+de lemmatiser son contenu et de générer les fichiers d'index
+Dans un premier temps, vous pouvez vous contenter de fournir manuellement une liste d'URL de pages à indexer.
+Dans un second temps, l'objectif serait d'arriver à parcourir le site en suivant les liens hypertextes des pages pour construire la liste de toutes les URL du site, et ne pas avoir à les fournir manuellement. Attention à ne pas tourner en rond !
 
-## Update du Site à 2:54am le 25/03/2023
-Notre site web utilise Flask (Python) pour connecter le frontend et le backend. Le fichier app.py dans le dossier web_version gère cette connexion. Cependant, nous avons remarqué que la performance du site pourrait être améliorée en optimisant cette connexion.
+## Autocorrection
 
-Afin d'automatiser la gestion des URLs, nous sommes en train de développer un programme qui ouvre un fichier texte et lit les mots à l'intérieur. Le programme choisira ensuite un mot parmi ceux lus pour le remplacer dans l'URL du site web. Ce processus sera exécuté de manière aléatoire pour garantir que le mot choisi varie à chaque visiteur. Le but de cette fonctionnalité est de fournir une expérience utilisateur unique à chaque visiteur du site web.
+Il est fréquent de taper un mot incorrectement, soit par inadvertance, soit par ce qu'on ne connaît pas son orthographe.
 
-Actuellement, la connexion entre le frontend et le backend est gérée à travers des URLs prédéfinies. Nous travaillons actuellement sur l'amélioration de cette connexion pour permettre une plus grande flexibilité dans la gestion des URLs.
+Non corrigées, ces erreurs vont évidemment fortement impacter le nombre et la qualités des résultats de la recherche.
 
-Nous nous engageons à continuer à améliorer notre site web et à fournir une expérience utilisateur optimale. Si vous avez des commentaires ou des suggestions, n'hésitez pas à nous contacter.
+Plusieurs approches peuvent être utilisées pour renvoyer malgré tout des résultats pertinents.
 
-Voici le résultat en images du console : 
+On peut utiliser un dictionnaire des erreurs les plus prévisibles, notamment concernant les fautes d'orthographe. Par exemple, "parmis" -> "parmi", ou "emener" -> "emmener".
+On peut aussi chercher les mots existants les plus proches.
+On peut utiliser des approches probabilistes (IA), mais cela nécessite l'analyse de très grandes quantités de données (phase d'apprentissage).
+La 2e approche est la plus pertinente en ce qui nous concerne.
+Voici quelques pistes si vous souhaitez vous pencher sur la question :
+La distance de Levenshtein permet de mesurer la distance entre deux mots, mais elle est assez coûteuse à calculer.
+On peut commencer par faire une préselection de mots assez proches avec une distance rapide à calculer, par exemple la distance de Jaccard, et calculer la distance de Lebenshtein seulement sur les mots sélectionnés pour affiner la correction.
 
-![getflask](https://user-images.githubusercontent.com/75495075/227679885-ac02d114-ea94-421b-acb0-d56ba0f876c7.PNG)
+## Comment installer le serveur 
+Visualiser le dossier, et localiser le fichier requirement.txt
+celui-ci va installer les librairies nécessaire pour l'éxecution du script sans soucis.
 
-Voici le résultat du site après les url prédéfini : 
-![capture 2](https://user-images.githubusercontent.com/75495075/227679906-251ac202-6190-4041-858a-b333dcd03a35.PNG)
+```bash
+ pip install -r requirements.txt
 
-## Modification du programme Python et ajout de redirections vers Vikidia (3:50am le 25/03/2023)
+```
+## 
 
-J'ai modifié le programme Python app.py pour faciliter l'implémentation de nouvelles fonctionnalités. De plus, j'ai ajouté un fichier texte contenant des mots basiques de tous les jours pour rediriger les utilisateurs vers les articles de Vikidia. Pour cela, j'ai utilisé la méthode de lecture de fichier en Python pour récupérer le contenu du fichier texte. Ensuite, j'ai utilisé la fonction random pour choisir un mot au hasard parmi ceux disponibles. Enfin, j'ai affiché le contenu correspondant à ce mot sur la page HTML.
 
-Voici les images de la version 0.1 à 4:00am le 25/03/2023: 
-## Comment j'ai réaliser la boucle ( Code à l'indienne ) 
-![Challenge](https://user-images.githubusercontent.com/75495075/227686711-b226389b-26ee-4224-96ec-4896bed1877c.PNG)
+## Authors
 
-## Rendu Final : 4:01am 25/03/2023
-![Capture3](https://user-images.githubusercontent.com/75495075/227686915-d7787161-1dab-4e8b-b950-c52f0c9006da.PNG)
+- [@ckizp](https://github.com/ckizp) - Chef du Projet + Développeur
+
+- [@BresThomas](https://github.com/BresThomas/) - Développeur
+
+- [@akirasanthakumaran](https://github.com/Akira98000/) - Développeur
+
+- [@PhanSayam](https://github.com/PhanSayam) - Développeur
+
+- [@Ti21l](https://github.com/Ti21l) - Développeur
+
+
+
+## Badges  & License
+
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+
+
+## Screenshots - Interface Web
+![site](https://user-images.githubusercontent.com/75495075/228978886-56179410-5b99-4cac-a7a9-df780ec870cc.PNG)
+
 
