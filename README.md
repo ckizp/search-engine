@@ -1,5 +1,7 @@
 
 # Projet SAE: Search Engine
+
+https://docs.python.org/3/library/pathlib.html
 ## projet incluant plusieurs language :
     1. Java (Majoritaire)
     2. HTML5
