@@ -17,8 +17,14 @@ public class Indexer {
 	private Path bin_directory;
 	private HashMap<String, List<String>> tags;
 	
-	public Indexer(Path bin_directory) {
-		this.bin_directory = bin_directory;
+	public Indexer() {
+		URL location = SearchEngine.class.getResource("/");
+		try {
+			bin_directory = Paths.get(location.toURI());
+		} catch(URISyntaxException e) {
+			e.printStackTrace();
+		}
+		
 		this.tags = new HashMap<String, List<String>>();
 		Path tags_directory = bin_directory.resolve("indexation");
 		
@@ -37,7 +43,7 @@ public class Indexer {
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(pages_directory, path -> Files.isRegularFile(path) && Files.isReadable(path))) {
 			for (Path filePath : stream) {
 				String name = new String();
-				name = count + "-";
+				name = String.valueOf(count) + "-";
 				List<String> allLines = Files.readAllLines(filePath, StandardCharsets.UTF_8);
 				
 				for(String key : tags.keySet()) {
@@ -59,9 +65,7 @@ public class Indexer {
 	}
 	
 	public static void main(String[] args) throws URISyntaxException {
-		URL location = SearchEngine.class.getProtectionDomain().getCodeSource().getLocation();
-	    Path binFolder = Paths.get(location.toURI());
-		Indexer indexer = new Indexer(binFolder);
+		Indexer indexer = new Indexer();
 		indexer.index();
 	}
 }

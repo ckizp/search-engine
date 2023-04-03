@@ -16,7 +16,7 @@ public class IndexedPage {
 	public IndexedPage(String[] lines) throws IllegalArgumentException {
 		int i = 0;
 		occurrences = new HashMap<>();
-		Lemmatizer lemmatizer = new Lemmatizer(".\\src\\lemmatisation\\");
+		Lemmatizer lemmatizer = new Lemmatizer();
 	    if (lines == null || lines.length < 1) {
 	        throw new IllegalArgumentException("The array in argument may not have been initialized or is empty.");
 	    }
@@ -41,7 +41,7 @@ public class IndexedPage {
 	public IndexedPage(Path path) throws IllegalArgumentException {
 	    int i;
 	    occurrences = new HashMap<>();
-	    Lemmatizer lemmatizer = new Lemmatizer(".\\src\\lemmatisation\\");
+	    Lemmatizer lemmatizer = new Lemmatizer();
 	    try {
 	        List<String> allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
 	        if (allLines.size() < 1)
@@ -67,9 +67,8 @@ public class IndexedPage {
 
 
 	public IndexedPage(String text) {
-		int i = 0;
 		occurrences = new HashMap<>();
-		Lemmatizer lemmatizer = new Lemmatizer(".\\src\\lemmatisation\\");
+		Lemmatizer lemmatizer = new Lemmatizer();
 		text = text.toLowerCase();
 
 		// On découpe le texte en mots qu'on stocke dans un table de type String[]
