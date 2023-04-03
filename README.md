@@ -74,4 +74,17 @@ celui-ci va installer les librairies nécessaire pour l'éxecution du script san
 ## Screenshots - Interface Web
 ![site](https://user-images.githubusercontent.com/75495075/228978886-56179410-5b99-4cac-a7a9-df780ec870cc.PNG)
 
+## Error to fix - .jar problem
+I'm not sure, but the potential problem, come from the lemmantizer.java on this line :
+URL location = SearchEngine.class.getResource("/");
+This return a null value on .jar & a true value on Eclipse
+I've made the test with a sys.out and i think this hypothesis can be correct 
 
+## The Terminal Error
+![ell](https://user-images.githubusercontent.com/75495075/229644475-81a67194-e9a4-4d7d-a24d-e5c56cbad7a5.PNG)
+
+## Print(URL)
+![Eclipse](https://user-images.githubusercontent.com/75495075/229645044-baaae625-663e-4094-84d8-f1fbee086154.PNG)
+
+## Print a False Path return a null value, 
+![FalseValue](https://user-images.githubusercontent.com/75495075/229645080-cfabf6a8-0353-4821-aa11-33c159ebde00.PNG)
