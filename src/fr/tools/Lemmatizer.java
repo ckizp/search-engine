@@ -2,8 +2,6 @@ package tools;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,23 +11,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import search_engine.SearchEngine;
-
 public class Lemmatizer {
 	private HashMap<Character, Map<String, String>> dictionary;
 	private List<String> blacklistedWords;
- 	private Path binPath; 
+ 	private Path srcPath; 
  	
 	public Lemmatizer() {
 		dictionary = new HashMap<>();
-		URL location = SearchEngine.class.getProtectionDomain().getCodeSource().getLocation();
-		try {
-			binPath = Paths.get(location.toURI());
-		} catch(URISyntaxException e) {
-			e.printStackTrace();
-		}
+		srcPath = Paths.get(System.getProperty("user.dir") + "/src/");
 	    
-		Path path = binPath.resolve("lemmatisation\\blacklist.txt");
+		Path path = srcPath.resolve("lemmatisation/blacklist.txt");
 		try {
 			blacklistedWords = Files.readAllLines(path);
 		} catch (IOException e) {
@@ -44,7 +35,7 @@ public class Lemmatizer {
 	public void load(char character) {
 		character = this.normalize(character);
 
-		Path path = binPath.resolve("lemmatisation\\" + character + ".txt");
+		Path path = srcPath.resolve("lemmatisation\\" + character + ".txt");
 		try (BufferedReader reader = Files.newBufferedReader(path)) {
 			Map<String, String> map = reader.lines().map(line -> line.split(":")).filter(line -> line.length == 2).collect(Collectors.toMap(arr -> arr[0], arr -> arr[1]));
 			
