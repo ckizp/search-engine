@@ -2,7 +2,6 @@ package search_engine;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -79,9 +78,7 @@ public class SearchEngine {
 	public static void main(String[] args) throws URISyntaxException, IOException {
 	    Scanner scanner = new Scanner(System.in);
 	    String request;
-	    URL location = SearchEngine.class.getProtectionDomain().getCodeSource().getLocation();
-	    Path binFolder = Paths.get(location.toURI());
-	    Path indexFolder = binFolder.resolve("INDEX_FILES");
+	    Path indexFolder = Paths.get(System.getProperty("user.dir") + "/src/INDEX_FILES");
 	    SearchEngine engine = new SearchEngine(indexFolder);
 
 	    if (args.length > 0) {
