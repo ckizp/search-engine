@@ -22,7 +22,7 @@ public class Lemmatizer {
  	
 	public Lemmatizer() {
 		dictionary = new HashMap<>();
-		URL location = SearchEngine.class.getResource("/");
+		URL location = SearchEngine.class.getProtectionDomain().getCodeSource().getLocation();
 		try {
 			binPath = Paths.get(location.toURI());
 		} catch(URISyntaxException e) {
