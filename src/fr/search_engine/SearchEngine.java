@@ -1,30 +1,57 @@
-package search_engine;
+package fr.search_engine;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.DirectoryStream;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SearchEngine {
-	private Path indexation_directory;
+	private Path indexationDirectory;
 	private List<IndexedPage> pages;
 	
-	public SearchEngine(Path indexation_directory) throws IOException {
-		this.indexation_directory = indexation_directory;
+	public SearchEngine(Path indexationDirectory) throws IOException {
+		this.indexationDirectory = indexationDirectory;
 		pages = new ArrayList<>();
-		try (DirectoryStream<Path> stream = Files.newDirectoryStream(indexation_directory, path -> Files.isRegularFile(path) && Files.isReadable(path))) {
+		/*try (DirectoryStream<Path> stream = Files.newDirectoryStream(indexationDirectory, path -> Files.isRegularFile(path) && Files.isReadable(path))) {
 			for (Path filePath : stream)
 				pages.add(new IndexedPage(filePath));
 		} catch (IOException e) {
-			System.err.println("Problème lors de la lecture du répertoire " + indexation_directory.getFileName() + " : " + e.getMessage());
-		}
+			System.err.println("ProblÃ¨me lors de la lecture du rÃ©pertoire " + indexationDirectory.getFileName() + " : " + e.getMessage());
+		}*/
+		
+		ExecutorService executorService = Executors.newFixedThreadPool(10); // Nombre de threads simultanÃ©s
+		try {
+            Files.walkFileTree(indexationDirectory, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) throws IOException {
+                    executorService.submit(() -> {
+                        try {
+                            byte[] fileContent = Files.readAllBytes(filePath);
+                            pages.add(new IndexedPage(filePath));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            executorService.shutdown();
+        }
 	}
 	
 	public IndexedPage getPage(int i) throws IndexOutOfBoundsException {
@@ -33,7 +60,7 @@ public class SearchEngine {
 	    }
 	    
 	    if (i < 0 || i >= pages.size()) {
-	        throw new IndexOutOfBoundsException("Impossible d'accéder au document à l'index " + i + ". Nombre de documents : " + this.getPagesNumber());
+	        throw new IndexOutOfBoundsException("Impossible d'accï¿½der au document ï¿½ l'index " + i + ". Nombre de documents : " + this.getPagesNumber());
 	    }
 	    
 	    return pages.get(i);
@@ -61,16 +88,16 @@ public class SearchEngine {
 		final int printLimit = 15;
 		SearchResult[] results = launchRequest(requestString);
 		
-		// Applique un filtre au tableau results afin d'enlever tous les résultats dont le score est nul
+		// Applique un filtre au tableau results afin d'enlever tous les rï¿½sultats dont le score est nul
 		results = Arrays.stream(results).filter(result -> result.getScore() > 0.).toArray(SearchResult[]::new);
-		// Filtre les résultats selon leur pertinence
+		// Filtre les rï¿½sultats selon leur pertinence
 	    Arrays.sort(results, Comparator.comparingDouble(SearchResult::getScore).reversed());
 	 
-	    // Affichage des résultats les plus pertinents (limite fixée par printLimit)
+	    // Affichage des rï¿½sultats les plus pertinents (limite fixï¿½e par printLimit)
 	    if (results.length == 0)
-	    	System.out.println("Aucun résultat pour cette recherche !");
+	    	System.out.println("Aucun rÃ©sultat pour cette recherche !");
 	    else
-	    	System.out.println("Voici ce que nous avons trouvé :");
+	    	System.out.println("Voici ce que nous avons trouvÃ© :");
 		for (i = 0; i < ((results.length < printLimit) ? (results.length) : (printLimit)); i++)
 			System.out.println(i + " - " + results[i].toString());
 	}
@@ -89,7 +116,7 @@ public class SearchEngine {
 	            System.out.println("\nLancez une recherche :");
 	            request = scanner.nextLine();
 	            if (request.isEmpty()) {
-	                throw new IllegalArgumentException("La requête ne peut pas être vide !");
+	                throw new IllegalArgumentException("La requÃªte ne peut pas Ãªtre vide !");
 	            }
 	            engine.printResults(request);
 	        } while (!request.equals("exit"));
