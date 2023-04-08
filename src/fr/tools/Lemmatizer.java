@@ -1,4 +1,4 @@
-package tools;
+package fr.tools;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class Lemmatizer {
 	private HashMap<Character, Map<String, String>> dictionary;
 	private List<String> blacklistedWords;
- 	private Path srcPath; 
+ 	private Path srcPath;
  	
 	public Lemmatizer() {
 		dictionary = new HashMap<>();
