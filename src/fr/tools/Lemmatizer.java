@@ -19,8 +19,8 @@ public class Lemmatizer {
 	public Lemmatizer() {
 		dictionary = new HashMap<>();
 		srcPath = Paths.get(System.getProperty("user.dir") + "/src/");
-	    
 		Path path = srcPath.resolve("lemmatisation/blacklist.txt");
+		
 		try {
 			blacklistedWords = Files.readAllLines(path);
 		} catch (IOException e) {
@@ -60,10 +60,5 @@ public class Lemmatizer {
 	
 	private char normalize(char character) {
 		return Normalizer.normalize(Character.toString(character), Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "").charAt(0);
-	}
-	
-	public static void main(String[] args) {
-		Lemmatizer lemmatizer = new Lemmatizer();
-		lemmatizer.load('p');
 	}
 }

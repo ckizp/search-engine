@@ -18,6 +18,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import fr.tools.Checker;
+
 public class SearchEngine {
 	private Path indexationDirectory;
 	private List<IndexedPage> pages;
@@ -103,18 +105,18 @@ public class SearchEngine {
 	    String request;
 	    Path indexFolder = Paths.get(System.getProperty("user.dir") + "/src/INDEX_FILES");
 	    SearchEngine engine = new SearchEngine(indexFolder);
+	    Checker checker = new Checker();
 
 	    if (args.length > 0) {
 	        request = String.join(" ", args);
-	        engine.printResults(request);
+	        engine.printResults(checker.check(request));
 	    } else {
 	        do {
 	            System.out.println("Lancez une recherche (tapez 'exit' pour quitter le moteur) :");
 	            request = scanner.nextLine();
-	            if (request.isEmpty()) {
-	                throw new IllegalArgumentException("La requête ne peut pas être vide !");
-	            }
-	            engine.printResults(request);
+	            if (request.isEmpty())
+	            	continue;
+	            engine.printResults(checker.check(request));
 	        } while (!request.equals("exit"));
 	    }
 	    scanner.close();
