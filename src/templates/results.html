@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <title>Résultat</title>
+</head>
+<body>
+  <header>
+    <div class="container">
+        <nav>
+            <a href="/" class="brand">Knowle.</a>
+            <ul class="menu">
+                <li><a href="#">Pages par thèmes</a></li>
+                <li><a href="/" class="active">Acceuil</a></li>
+                <li><a href="#">Article au hasard</a></li>
+                <li class="hidden"><a href="#">Langue </a></li>
+                <li class="hidden"><a href="#" class="btn">Langue : 🇫🇷</a></li>
+            </ul>
+            <ul class="nav-buttons">
+                <li><a href="#">Licence</a></li>
+                <li><a href="#" class="btn">Aide ?</a></li>
+            <ul>
+            <button class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+        <br/>
+        <h1>Les résultats de ma recherche les plus pertinantes : </h1>
+        <a> Si ca vous affiche le résultat précedent, veuillez à rafraichir la page</a>
+        <br/>
+        {% block content %}
+          <div class="card-container">
+            {% for i in range(len(titles)) %}
+              <div class="card">
+                <div class="card-title">{{ titles[i] }}</div>
+                <div class="card-url">N°{{i+1}} de ma recherche sur mes la recherche demander sur le serveur knowle.</div>
+                <a href="{{ links[i] }}" class="card-link" target="_blank">Visiter le site</a>
+              </div>
+            {% endfor %}
+          </div>
+        {% endblock %}
+    </body>
+</html>

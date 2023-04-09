@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width"/>
+    <title>&copy;Knowle.</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="brand">Knowle.</a>
+                <ul class="menu">
+                    <li><a href="#">Pages par thèmes</a></li>
+                    <li><a href="#" class="active">Acceuil</a></li>
+                    <li><a href="#">Article au hasard</a></li>
+                </ul>
+                <ul class="nav-buttons">
+                    <li><a href="https://fr.vikidia.org/wiki/Vikidia:Questions_l%C3%A9gales">Licence</a></li>
+                    <li><a href="https://fr.vikidia.org/wiki/Aide:Accueil" class="btn">Aide ?</a></li>
+                <ul>
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+            <div class="header-body">
+                <h1>Knowle.</h1>
+                <div class="wrapper">
+                    <form method="POST" action="{{ url_for('search') }}">
+                        <div class="search-input">
+                            <a href="" target="_blank" hidden></a>
+                            <input type="text" placeholder="Rechercher dans knowle." name="keyword" id="keyword">
+                            <div class="autocom-box"></div>
+                            <div class="icon">
+                                <button type="submit"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+                <a href="#" class="btn">+ Athlèthe</a>
+                <a href="#" class="btn">+ Acteurs</a>
+                <a href="#" class="btn">+ Scientifique</a>
+                <a href="#" class="btn">+ Artiste</a>
+                <a href="#" class="btn">+ Ecrivain</a>
+            </div>
+            <div class="header-bottom">
+                <div class="panels">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="category">Article du jour : {{heading_text}}</span>
+                        </div>
+                        <div class="panel-body">
+                            {% if contents[1].text|length > 150 %}
+                                <p>{{ contents[1].text[:150] }}</p>
+                            {% else %}
+                            <p>{{ contents[1].text }}</p>
+                            {% endif %}
+                        </div>
+                        <a href="#" class="panel-link">
+                            <span><!-- Consulter l'article  <i class="fas fa-arrow-right"></i>--> </span>
+                        </a>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="category">Article du jour : {{heading_text}}</span>
+                        
+                        </div>
+                        <div class="panel-body">
+                    
+                            {% if contents[1].text|length > 120 %}
+                                <p>{{ contents[1].text[:150] }}</p>
+                            {% else %}
+                            <p>{{ contents[1].text }}</p>
+                            {% endif %}
+                        </div>
+                        <a href="#" class="panel-link">
+                           <!-- <span> Consulter l'article  <i class="fas fa-arrow-right"></i> </span>--> 
+                        </a>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="category">Article du jour : {{heading_text}}</span>
+                      
+                        </div>
+                        <div class="panel-body">
+                        
+                            {% if contents[1].text|length > 120 %}
+                                <p>{{ contents[1].text[:150] }}</p>
+                            {% else %}
+                            <p>{{ contents[1].text }}</p>
+                            {% endif %}
+                        </div>
+                        <a href="#" class="panel-link">
+                            <!--<span> Consulter l'article  <i class="fas fa-arrow-right"></i> </span>-->
+                        </a>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="category">Article du jour : {{heading_text}}</span>
+                      
+                        </div>
+                        <div class="panel-body">
+                            {% if contents[1].text|length > 120 %}
+                                <p>{{ contents[1].text[:150] }}</p>
+                            {% else %}
+                            <p>{{ contents[1].text }}</p>
+                            {% endif %}
+                        </div>
+                        <a href="#" class="panel-link">
+                            <span> <!--Consulter l'article  <i class="fas fa-arrow-right"></i> </span>-->
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>  
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/suggestion.js') }}"></script>   
+    </form>
+  </body>
+</html>
